@@ -25,8 +25,12 @@
 }
 
 .row {
-    height: 200px;
+    height: 225px;
     padding: 10px !important;
+}
+
+.card {
+    margin:1px;
 }
 
 .row:nth-child(odd) {
@@ -35,4 +39,9 @@
 
 .row:nth-child(even) {
     background: linear-gradient(to right, rgb(151, 151, 151), rgb(213, 213, 213));
+}
+
+.link {
+    cursor: pointer;
+    color: rgb(12, 125, 163);
 }

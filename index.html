@@ -6,7 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
     <div id="container" class="container-fluid">
@@ -18,20 +18,29 @@
         </div>
         <div class="row">
             <h2>Mes projets</h2>
-            <div class="col-md-4">
-                <h3>Maze Project</h3>
-                <p>Projet sous Unity</p>
-                <p>
-                    L'objectif était de réaliser un projet de jeu 3D
-                    <span class="material-symbols-outlined">
-                        download
-                    </span>
-                </p>
-                
+            <div class="card col-md-4">
+                <h3 class="card-header">Maze Project</h3>
+                <div class="card-body">
+                    <p>Projet sous Unity</p>
+                    <p class="d-flex">
+                        L'objectif était de réaliser un projet de jeu 3D
+                        <span href="https://drive.google.com/uc?export=download&id=1MehjuH6hQVRr0I-hshwtlIgV_QcvL16X" class="material-symbols-outlined link">
+                            download
+                        </span>
+                    </p>
+                </div>
             </div>
-            <div class="col-md-4">
-                <h3>Projet 2</h3>
-                <p>Voici le deuxième projet</p>
+            <div class="card col-md-4">
+                <h3 class="card-header">Ressource Sharing</h3>
+                <div class="card-body">
+                    <p>Projet sur le framework SpringBoot</p>
+                    <p class="d-flex">
+                        L'objectif était de réaliser un projet de partage de ressources
+                        <span href="https://drive.google.com/uc?export=download&id=1aAZ-0UvHJFAiGrOMmWVmvP8qYOhK1ug0" class="material-symbols-outlined link">
+                            download
+                        </span>
+                    </p>
+                </div>
             </div>
             <div class="col-md-4">
                 <h3>Projet 3</h3>
@@ -47,4 +56,11 @@
         </div>
     </div>
 </body>
+<script>
+    $(document).ready(function() {
+        $(".link").click(function() {
+            window.location.href = $(this).attr("href");
+        });
+    });
+</script>
 </html>
