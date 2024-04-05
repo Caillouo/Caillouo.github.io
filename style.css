@@ -22,17 +22,19 @@
 #firstRow {
     background: linear-gradient(to right, #540054, #bf4193);
     color:white;
+    height: 230px;
+    padding: 10px !important;
 }
 
-.row {
-    height: 230px;
-    overflow: auto;
+.bigRow {
+    max-height: 1000px;
+    overflow: hidden;
     padding: 10px !important;
     transition: all 0.3s ease;
 }
-.collapsed {
-    height: 50px !important;
-    overflow: hidden;
+
+.smallRow {
+    margin-bottom: 10px;
 }
 
 .card {
@@ -41,11 +43,11 @@
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
 }
 
-.row:nth-child(odd) {
+.bigRow:nth-child(odd) {
     background: linear-gradient(to top, rgb(213, 213, 213), rgb(151, 151, 151));
 }
 
-.row:nth-child(even) {
+.bigRow:nth-child(even) {
     background: linear-gradient(to top, rgb(151, 151, 151), rgb(213, 213, 213));
 }
 
