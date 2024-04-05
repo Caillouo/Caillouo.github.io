@@ -17,7 +17,12 @@
             </div>
         </div>
         <div class="row">
-            <h2>Mes projets</h2>
+            <h2>
+                Mes projets
+                <span class="material-symbols-outlined icon expand">
+                    expand_less
+                </span>
+            </h2>
             <div class="card col-md-4">
                 <h3 class="card-header">Maze Project</h3>
                 <div class="card-body">
@@ -36,19 +41,24 @@
                     <p>Projet sur le framework SpringBoot</p>
                     <p class="d-flex">
                         L'objectif était de réaliser un projet de partage de ressources
-                        <span href="https://drive.google.com/uc?export=download&id=1aAZ-0UvHJFAiGrOMmWVmvP8qYOhK1ug0" class="material-symbols-outlined link">
+                        <span href="https://drive.google.com/uc?export=download&id=1aAZ-0UvHJFAiGrOMmWVmvP8qYOhK1ug0" class="material-symbols-outlined link icon">
                             download
                         </span>
                     </p>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="card col-md-4">
                 <h3>Projet 3</h3>
                 <p>Voici le troisième projet</p>
             </div>
         </div>
         <div class="row">
-            <h2>Mes compétences</h2>
+            <h2>
+                Mes compétences
+                <span class="material-symbols-outlined icon expand">
+                    expand_less
+                </span>
+            </h2>
             <div class="col-md-4">
                 <h3>Compétence 1</h3>
                 <p>Voici la première compétence</p>
@@ -61,6 +71,16 @@
         $(".link").click(function() {
             window.location.href = $(this).attr("href");
         });
+        $(".expand").click(function() {
+            if ($(this).text() == "expand_more") {
+                $(this).text("expand_less");
+                $(this).parent().parent().removeClass("collapsed");
+            } else {
+                $(this).text("expand_more");
+                $(this).parent().parent().addClass("collapsed");
+            }
+        })
+        
     });
 </script>
 </html>
