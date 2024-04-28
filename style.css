@@ -22,7 +22,7 @@
 #firstRow {
     background: linear-gradient(to right, #540054, #bf4193);
     color:white;
-    height: 230px;
+    height: 270px;
     padding: 10px !important;
 }
 
@@ -40,6 +40,12 @@
 .card {
     margin:1px;
     width: 33.2% !important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+.smallCard {
+    margin:1px;
+    width: 30% !important;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
 }
 
