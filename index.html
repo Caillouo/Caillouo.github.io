@@ -13,7 +13,7 @@
     <div id="container" class="container-fluid">
         <div class="row" id="firstRow">
             <div class="text-center w-100 h-100 d-flex flex-column align-items-center">
-                <img class="img-fluid h-100 mx-5 rounded-circle" src="storage/images/profil_picture.png" alt="Photo de profil" id="profilPicture">
+                <img class="img-fluid h-100 mx-5 rounded-circle" src="storage/images/profil_picture.png" alt="William NOEL" id="profilPicture">
                 <div>
                     <h1>William NOEL</h1>
                     <p>Développeur web</p>
@@ -38,7 +38,7 @@
                                 NOEL
                             </span>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <span class="col-md-6 text-start">
                                 <b>Prénom :</b>
                             </span>
@@ -46,7 +46,7 @@
                                 William
                             </span>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <span class="col-md-6 text-start">
                                 <b>Âge :</b>
                             </span>
@@ -59,26 +59,34 @@
                 <div class="card smallCard col-md-2">
                     <div class="card-body">
                         <div class="row">
-                            <span class="col-md-6 text-start">
+                            <span class="col-md-5 text-start">
                                 <b>Diplôme :</b>
                             </span>
-                            <span class="col-md-6 text-end">
+                            <span class="col-md-7 text-end">
                                 Master MIAGE (BAC +5 en cours)
                             </span>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <span class="col-md-6 text-start">
                                 <b>Disponible :</b>
                             </span>
-                            <span class="col-md-offset-4 col-md-2 w-auto text-end bg-success">
+                            <span class="col-md-2 offset-md-4 ms-md-auto w-auto text-end bg-success">
                                 Oui
+                            </span>
+                        </div>
+                        <div class="row mt-3 linksHead">
+                            <span class="col-md-6 text-start" href="#projets">
+                                <b>Projets visibles :</b> 6
+                            </span>
+                            <span class="col-md-6 text-end" href="#competences">
+                                <b>Compétences visibles :</b> 1
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row bigRow">
+        <div class="row bigRow" id="projets">
             <h2>
                 Mes projets
                 <span class="material-symbols-outlined icon expand">
@@ -93,7 +101,7 @@
                         <p class="d-flex">
                             L'objectif était de faire une refonte totale d'un site web d'un client (passer de wordpress à Laravel)
                         </p>
-                        <a href="test.solurisk.com">Site en cours de refonte</a>
+                        <a href="https://test.solurisk.com">Site en cours de refonte</a>
                     </div>
                 </div>
                 <div class="card col-md-4">
@@ -160,14 +168,14 @@
                 </div>
             </div>
         </div>
-        <div class="row bigRow">
+        <div class="row bigRow" id="competences">
             <h2>
                 Mes compétences
                 <span class="material-symbols-outlined icon expand">
                     expand_less
                 </span>
             </h2>
-            <div class="col-md-4">
+            <div class="card col-md-4">
                 <h3>Compétence 1</h3>
                 <p>Voici la première compétence</p>
             </div>
@@ -188,7 +196,6 @@
                 $(this).parent().parent().css("max-height", "50px");
             }
         })
-        
     });
 </script>
 </html>

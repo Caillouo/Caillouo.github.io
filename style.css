@@ -26,6 +26,10 @@
     padding: 10px !important;
 }
 
+.linksHead span {
+    cursor: pointer;
+}
+
 .bigRow {
     max-height: 1000px;
     overflow: hidden;
