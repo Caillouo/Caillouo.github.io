@@ -21,9 +21,9 @@
             </div>
         </div>
         <div class="row bigRow align-items-center justify-content-center">
-            <h2 class="text-center">
+            <h2 class="text-center expand">
                 A propos de moi
-                <span class="material-symbols-outlined icon expand">
+                <span class="material-symbols-outlined icon">
                     expand_less
                 </span>
             </h2>
@@ -75,21 +75,49 @@
                             </span>
                         </div>
                         <div class="row mt-3 linksHead">
-                            <span class="col-md-6 text-start" href="#projets">
+                            <a class="col-md-6 text-start" href="#projets">
                                 <b>Projets visibles :</b> 6
-                            </span>
-                            <span class="col-md-6 text-end" href="#competences">
+                            </a>
+                            <a class="col-md-6 text-end" href="#competences">
                                 <b>Compétences visibles :</b> 1
-                            </span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row bigRow" id="savoirEtre">
+            <h2 class="expand">
+                Mes compétences personnelles
+                <span class="material-symbols-outlined icon">
+                    expand_less
+                </span>
+            </h2>
+            <div class="row smallRow">
+                <div class="card col-md-4">
+                    <h3 class="card-header">Savoir-être 1</h3>
+                    <div class="card-body">
+                        <p>Voici le premier savoir-être</p>
+                    </div>
+                </div>
+                <div class="card col-md-4">
+                    <h3 class="card-header">Savoir-être 2</h3>
+                    <div class="card-body">
+                        <p>Voici le deuxième savoir-être</p>
+                    </div>
+                </div>
+                <div class="card col-md-4">
+                    <h3 class="card-header">Savoir-être 3</h3>
+                    <div class="card-body">
+                        <p>Voici le troisième savoir-être</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row bigRow" id="projets">
-            <h2>
+            <h2 class="expand">
                 Mes projets
-                <span class="material-symbols-outlined icon expand">
+                <span class="material-symbols-outlined icon">
                     expand_less
                 </span>
             </h2>
@@ -169,9 +197,9 @@
             </div>
         </div>
         <div class="row bigRow" id="competences">
-            <h2>
+            <h2 class="expand">
                 Mes compétences
-                <span class="material-symbols-outlined icon expand">
+                <span class="material-symbols-outlined icon">
                     expand_less
                 </span>
             </h2>
@@ -188,12 +216,13 @@
             window.location.href = $(this).attr("href");
         });
         $(".expand").click(function() {
-            if ($(this).text() == "expand_more") {
-                $(this).text("expand_less");
-                $(this).parent().parent().css("max-height", "1000px");
+            let icon = $(this).find(".icon");
+            if (icon.text() == "expand_more") {
+                icon.text("expand_less");
+                $(this).parent().css("max-height", "1000px");
             } else {
-                $(this).text("expand_more");
-                $(this).parent().parent().css("max-height", "50px");
+                icon.text("expand_more");
+                $(this).parent().css("max-height", "50px");
             }
         })
     });
