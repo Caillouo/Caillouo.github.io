@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-variation-settings: 'wght' 400;
+    font-size: 16px;
+    background: rgb(2,0,36);
+    background: linear-gradient(to right, #540054, #bf4193);
+    color: white;
+}
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+#container {
+    background: rgb(2,0,36);
+    background: linear-gradient(to right, #540054, #bf4193);
+    height: 100vh;
+    z-index: 1;
+}
+
+.navbar {
+    background: linear-gradient(to right, #540054, #bf4193);
+    top: 50%;
+    left: 0;
+    position: fixed !important;
+    z-index: 999;
+    transform: translateY(-50%);
+}
+
+#navbarNav {
+    justify-content: center;
+}
+
+#navbarNav > ul {
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+#firstRow {
+    margin-top: 2%;
+    background: linear-gradient(to right, #540054, #bf4193);
+    color:white;
+    height: 270px;
+    padding: 10px !important;
+}
+
+.linksHead a {
+    text-decoration: none;
+}
+
+.expand {
+    cursor: pointer;
+}
+
+.bigRow {
+    max-height: 1000px;
+    overflow: hidden;
+    padding: 10px !important;
+    transition: all 0.3s ease;
+}
+
+.smallRow {
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.card {
+    margin:4px;
+    width: 32.2% !important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+.smallCard {
+    margin:3px;
+    width: 35% !important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+.bigRow:nth-child(odd) {
+    background: linear-gradient(to top, rgb(213, 213, 213), rgb(151, 151, 151));
+}
+
+.bigRow:nth-child(even) {
+    background: linear-gradient(to top, rgb(151, 151, 151), rgb(213, 213, 213));
+}
+
+.link {
+    color: rgb(12, 125, 163);
+}
+
+.icon {
+    cursor: pointer;
+}
