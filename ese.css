@@ -27,6 +27,11 @@ body {
     z-index: 1;
 }
 
+nav > .container {
+    background-color: rgb(2,0,36, 0.1);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
 .navbar {
     background: linear-gradient(to right, #540054, #bf4193);
     top: 50%;
@@ -34,6 +39,12 @@ body {
     position: fixed !important;
     z-index: 999;
     transform: translateY(-50%);
+}
+
+.navbar-nav .nav-item .nav-link.active {
+    color: #003772;
+    font-size: large;
+    text-decoration: underline;
 }
 
 #navbarNav {
@@ -71,6 +82,7 @@ body {
 .smallRow {
     margin-bottom: 10px;
     justify-content: center;
+    gap: 0.5%;
 }
 
 .card {
@@ -85,11 +97,11 @@ body {
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
 }
 
-.bigRow:nth-child(odd) {
+section:nth-child(odd) {
     background: linear-gradient(to top, rgb(213, 213, 213), rgb(151, 151, 151));
 }
 
-.bigRow:nth-child(even) {
+section:nth-child(even) {
     background: linear-gradient(to top, rgb(151, 151, 151), rgb(213, 213, 213));
 }
 
