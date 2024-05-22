@@ -41,6 +41,9 @@
                 <div>
                     <h1>William NOEL</h1>
                     <p>Développeur web</p>
+                    <a href="https://drive.google.com/drive/folders/1L2WTLVIPN2Wwb_ZXs6M7Z9bDd3Wrv4Qt?usp=drive_link" target="_blank">
+                        Accéder à mon Google Drive
+                    </a>
                 </div>
             </div>
         </div>
@@ -101,7 +104,7 @@
                             </div>
                             <div class="row mt-3 linksHead">
                                 <a class="col-md-6 text-start" href="#projets">
-                                    <b>Projets visibles :</b> 6
+                                    <b>Projets visibles :</b> 8
                                 </a>
                                 <a class="col-md-6 text-end" href="#savoirEtre">
                                     <b>Compétences visibles :</b> 12
@@ -207,9 +210,9 @@
                         <h3 class="card-header">Programmation web</h3>
                         <div class="card-body">
                             <p>
-                                <b>Langages :</b> HTML, CSS, JavaScript, PHP, SQL, C#
+                                <b>Langages :</b> HTML, CSS, JavaScript, PHP, SQL, C#, Java
                                 <br>
-                                <b>Frameworks :</b> Laravel, Symfony, SpringBoot, VueJS
+                                <b>Frameworks :</b> Laravel, Symfony, SpringBoot, VueJS, Angular
                             </p>
                         </div>
                     </div>
@@ -274,7 +277,43 @@
                             <p class="d-flex">
                                 L'objectif était de faire une refonte totale d'un site web d'un client (passer de wordpress à Laravel)
                             </p>
-                            <a href="https://test.solurisk.com">Site en cours de refonte</a>
+                            <div class="boutons">
+                                <a class="btn btn-success" href="https://test.solurisk.com" target="_blank">Site en cours de refonte</a>
+                                |
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#soluriskModal">
+                                    Plus d'informations
+                                </button>
+                            </div>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="soluriskModal" tabindex="-1" aria-labelledby="soluriskModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Projet Solurisk</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body row">
+                                            <div class="col-md-7">
+                                                L'objectif de ce projet était de réaliser une refonte totale du site web d'un client.<br><br>
+                                                Le site web initial était réalisé sous Wordpress et le client souhaitait améliorer son référencement et la beauté de son site web.<br>
+                                                Nous avons donc réalisé une refonte totale du site web en utilisant le framework Laravel.<br><br>
+                                                Nous avons développé un front-office pour les clients de Solurisk et un back-office pour les administrateurs du site web.<br>
+                                                Le front-office est entièrement personnalisable par les administrateurs du site web par un simple clic sur les champs des pages<br>
+                                                Le back-office permet de gérer les utilisateurs, les etablissements et le matériel de ceux-ci<br>
+                                                Enfin, ce back-office permet de réaliser des rapports d'intervention avec un export PDF envoyé par mail.<br>                                                
+                                            </div>
+                                            <div class="col-md-5">
+                                                <img src="storage/images/screen_solurisk.png" class="image-modale img-fluid" alt="Solurisk">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card col-md-4">
@@ -283,9 +322,40 @@
                             <p>Projet sous Unity</p>
                             <p class="d-flex">
                                 L'objectif était de réaliser un projet de jeu 3D
-                                <span href="https://drive.google.com/uc?export=download&id=1MehjuH6hQVRr0I-hshwtlIgV_QcvL16X" class="material-symbols-outlined link icon">
-                                    download
-                                </span>
+                                <div class="boutons">
+                                    <a class="btn btn-success d-flex" href="https://drive.google.com/uc?export=download&id=1MehjuH6hQVRr0I-hshwtlIgV_QcvL16X" target="_blank">
+                                        Télécharger
+                                        <span class="material-symbols-outlined icon">
+                                            download
+                                        </span>
+                                    </a> 
+                                    |
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mazeModal">
+                                        Plus d'informations
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="mazeModal" tabindex="-1" aria-labelledby="mazeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Projet Temple Trouble sur Unity</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body row">
+                                                <div class="col-md-7">
+                                                    L'objectif de ce projet était de se familiariser avec le développement de jeu 3D sur Unity.<br><br>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <img src="storage/images/screen_maze_1.png" class="image-modale img-fluid mb-2" alt="maze_1">
+                                                    <img src="storage/images/screen_maze_2.png" class="image-modale img-fluid" alt="maze_2">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </p>
                         </div>
                     </div>
@@ -295,9 +365,39 @@
                             <p>Projet sur le framework SpringBoot</p>
                             <p class="d-flex">
                                 L'objectif était de réaliser un projet de partage de ressources
-                                <span href="https://drive.google.com/uc?export=download&id=1aAZ-0UvHJFAiGrOMmWVmvP8qYOhK1ug0" class="material-symbols-outlined link icon">
-                                    download
-                                </span>
+                                <div class="boutons">
+                                    <a class="btn btn-success d-flex" href="https://drive.google.com/uc?export=download&id=1aAZ-0UvHJFAiGrOMmWVmvP8qYOhK1ug0" target="_blank">
+                                        Télécharger
+                                        <span class="material-symbols-outlined icon">
+                                            download
+                                        </span>
+                                    </a> 
+                                    |
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ressourceModal">
+                                        Plus d'informations
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="ressourceModal" tabindex="-1" aria-labelledby="ressourceModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Projet Ressource Sharing en Java</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body row">
+                                                <div class="col-md-7">
+                                                    ...<br><br>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </p>
                         </div>
                     </div>
@@ -309,9 +409,40 @@
                             <p>Projet de création de trajet sur carte</p>
                             <p class="d-flex">
                                 L'objectif était de réaliser un projet de carte intéractive
-                                <span href="https://drive.google.com/uc?export=download&id=1uE4qHW0lsNuT0mRSK3spvssOLnPkmY72" class="material-symbols-outlined link icon">
-                                    download
-                                </span>
+                                <div class="boutons">
+                                    <a class="btn btn-success d-flex" href="https://drive.google.com/uc?export=download&id=1uE4qHW0lsNuT0mRSK3spvssOLnPkmY72" target="_blank">
+                                        Télécharger
+                                        <span class="material-symbols-outlined icon">
+                                            download
+                                        </span>
+                                    </a> 
+                                    |
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carteModal">
+                                        Plus d'informations
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="carteModal" tabindex="-1" aria-labelledby="carteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Projet de création de trajet sur carte intéractive</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body row">
+                                                <div class="col-md-7">
+                                                    ...<br><br>
+                                                    Ce projet ne fonctionne plus à l'heure actuelle car l'API utilisée n'est plus disponible.<br>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <img src="storage/images/screen_map_trajet.PNG" class="image-modale img-fluid" alt="map_trajet">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </p>
                         </div>
                     </div>
@@ -321,9 +452,40 @@
                             <p>Projet de carte utilitaire</p>
                             <p class="d-flex">
                                 L'objectif était de créer une carte utile pour des primo-étudiants
-                                <span href="https://drive.google.com/uc?export=download&id=1-5jopeqQ1UShivVH3HAwhbexlU49mebL" class="material-symbols-outlined link icon">
-                                    download
-                                </span>
+                                <div class="boutons">
+                                    <a class="btn btn-success d-flex" href="https://drive.google.com/uc?export=download&id=1-5jopeqQ1UShivVH3HAwhbexlU49mebL" target="_blank">
+                                        Télécharger
+                                        <span class="material-symbols-outlined icon">
+                                            download
+                                        </span>
+                                    </a> 
+                                    |
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mnmModal">
+                                        Plus d'informations
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="mnmModal" tabindex="-1" aria-labelledby="mnmModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Projet de carte informative avec gestion de projet</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body row">
+                                                <div class="col-md-7">
+                                                    ...<br><br>
+                                                    <br>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <img src="storage/images/screen_mnm.png" class="image-modale img-fluid" alt="map_trajet">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </p>
                         </div>
                     </div>
@@ -333,9 +495,128 @@
                             <p>Application web de gestion de bar</p>
                             <p class="d-flex">
                                 L'objectif était de créer une application web à destination d'un bar (service, gestion, caisse, etc.)
-                                <span href="https://drive.google.com/uc?export=download&id=1yFgl_wgC9EoPx23jhg0wghZKruEvBQ7l" class="material-symbols-outlined link icon">
-                                    download
-                                </span>
+                                <div class="boutons">
+                                    <a class="btn btn-success d-flex" href="https://drive.google.com/uc?export=download&id=1yFgl_wgC9EoPx23jhg0wghZKruEvBQ7l" target="_blank">
+                                        Télécharger
+                                        <span class="material-symbols-outlined icon">
+                                            download
+                                        </span>
+                                    </a> 
+                                    |
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#barModal">
+                                        Plus d'informations
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="barModal" tabindex="-1" aria-labelledby="barModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Projet de gestion de bar en .NET</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body row">
+                                                <div class="col-md-7">
+                                                    ...<br><br>
+                                                    <br>
+                                                </div>
+                                                <div class="col-md-5">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row smallRow">
+                    <div class="card col-md-4">
+                        <h3 class="card-header">Projet Angular</h3>
+                        <div class="card-body">
+                            <p>Projet sur le framework Angular</p>
+                            <p class="d-flex">
+                                L'objectif était de réaliser un projet d'auto-évaluation des étudiants
+                                <div class="boutons">
+                                    <a class="btn btn-success d-flex" href="https://drive.google.com/drive/u/0/folders/124FxgCSPbAeGk55wtCBgNBNyQx58L4gH" target="_blank">
+                                        Télécharger
+                                        <span class="material-symbols-outlined icon">
+                                            download
+                                        </span>
+                                    </a> 
+                                    |
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#autoevalModal">
+                                        Plus d'informations
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="autoevalModal" tabindex="-1" aria-labelledby="autoevalModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Projet d'auto-évaluation sur Angular</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body row">
+                                                <div class="col-md-7">
+                                                    ...<br><br>
+                                                    <br>
+                                                </div>
+                                                <div class="col-md-5">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card col-md-4">
+                        <h3 class="card-header">Projets Swift</h3>
+                        <div class="card-body">
+                            <p>Projet sur Swift/Xcode</p>
+                            <p class="d-flex">
+                                Il y avait deux projets : un projet de monte carlo et un projet de calculatrice
+                                <div class="boutons">
+                                    <a class="btn btn-success d-flex" href="https://drive.google.com/drive/u/0/folders/1W0RY5_-mdIo9As_rT4-vAZNfVG9t9bHg" target="_blank">
+                                        Télécharger
+                                        <span class="material-symbols-outlined icon">
+                                            download
+                                        </span>
+                                    </a> 
+                                    |
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#swiftModal">
+                                        Plus d'informations
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="swiftModal" tabindex="-1" aria-labelledby="swiftModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Projets sur Swift</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body row">
+                                                <div class="col-md-7">
+                                                    ...<br><br>
+                                                    <br>
+                                                </div>
+                                                <div class="col-md-5" style="justify-content: end; display: flex; gap: 6%;">
+                                                    <img src="storage/images/screen_swift_1.png" class="image-swift img-fluid" alt="swift_1">
+                                                    <img src="storage/images/screen_swift_21.png" class="image-swift img-fluid" alt="swift_2">
+                                                    <img src="storage/images/screen_swift_22.png" class="image-swift img-fluid" alt="swift_2">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </p>
                         </div>
                     </div>

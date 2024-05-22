@@ -42,7 +42,7 @@ nav > .container {
 }
 
 .navbar-nav .nav-item .nav-link.active {
-    color: #003772;
+    color: white;
     font-size: large;
     text-decoration: underline;
 }
@@ -60,7 +60,7 @@ nav > .container {
     margin-top: 2%;
     background: linear-gradient(to right, #540054, #bf4193);
     color:white;
-    height: 270px;
+    height: 30%;
     padding: 10px !important;
 }
 
@@ -81,8 +81,10 @@ nav > .container {
 
 .smallRow {
     margin-bottom: 10px;
-    justify-content: center;
+    justify-content: space-around;
     gap: 0.5%;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 .card {
@@ -111,4 +113,17 @@ section:nth-child(even) {
 
 .icon {
     cursor: pointer;
+}
+
+.boutons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3%;
+}
+
+.image-swift {
+    width: 25%;
+    height: 100%;
+    object-fit: cover;
 }
