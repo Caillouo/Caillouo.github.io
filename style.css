@@ -28,9 +28,13 @@ body {
 }
 
 nav > .container {
-    background-color: rgb(2,0,36, 0.1);
+    background-color: #780478;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+}
+
+.navbar-brand {
+    color: whitesmoke !important;
 }
 .navbar {
     background: linear-gradient(to right, #540054, #bf4193);
@@ -39,6 +43,11 @@ nav > .container {
     position: fixed !important;
     z-index: 999;
     transform: translateY(-50%);
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: whitesmoke;
+    font-size: large;
 }
 
 .navbar-nav .nav-item .nav-link.active {
@@ -57,11 +66,16 @@ nav > .container {
 }
 
 #firstRow {
-    margin-top: 2%;
+    margin-top: 5%;
     background: linear-gradient(to right, #540054, #bf4193);
     color:white;
-    height: 30%;
     padding: 10px !important;
+}
+
+img.profil {
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .linksHead a {
