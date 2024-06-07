@@ -31,6 +31,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#projets">Mes projets</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#experience">Mon expérience</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -41,7 +44,7 @@
                 <div class="h-100">
                     <h1>William NOEL</h1>
                     <p>Développeur web</p>
-                    <a href="https://drive.google.com/drive/folders/1L2WTLVIPN2Wwb_ZXs6M7Z9bDd3Wrv4Qt?usp=drive_link" target="_blank">
+                    <a class="drive-link" href="https://drive.google.com/drive/folders/1L2WTLVIPN2Wwb_ZXs6M7Z9bDd3Wrv4Qt?usp=drive_link" target="_blank">
                         Accéder à mon Google Drive
                     </a>
                 </div>
@@ -214,7 +217,7 @@
             </div>
         </section>
         <section id="competences">
-            <div class="row bigRow" >
+            <div class="row bigRow">
                 <h2 class="expand">
                     Mes compétences techniques
                     <span class="material-symbols-outlined icon">
@@ -689,6 +692,46 @@
                 </div>
             </div>
         </section>
+        <section id="experience">
+            <div class="row bigRow">
+                <h2 class="expand">
+                    Mon expérience professionnelle
+                    <span class="material-symbols-outlined icon">
+                        expand_less
+                    </span>
+                </h2>
+                <div class="row smallRow">
+                    <div class="card col-md-4">
+                        <h3 class="card-header">Stage de Licence 3 informatique à TELERIC</h3>
+                        <div class="card-body">
+                            <p>
+                                <b>Date :</b> 2022
+                                <br>
+                                <b>Durée :</b> 6 mois
+                                <br>
+                                <b>Poste :</b> Développeur web
+                                <br>
+                                <b>Technologies :</b> Laravel, HTML, CSS, JavaScript, VueJS, PHP, SQL
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card col-md-4">
+                        <h3 class="card-header">Alternance de Master MIAGE à TELERIC</h3>
+                        <div class="card-body">
+                            <p>
+                                <b>Date :</b>2022 - 2024
+                                <br>
+                                <b>Durée :</b> 2 ans
+                                <br>
+                                <b>Poste :</b> Développeur web
+                                <br>
+                                <b>Technologies :</b> Laravel, HTML, CSS, JavaScript, VueJS, PHP, SQL
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 <script>
@@ -711,14 +754,24 @@
             var windowCenter = $(window).scrollTop() + window.innerHeight / 2;
             var elementTop = $(element).offset().top;
             var elementBottom = elementTop + $(element).outerHeight();
-            return (elementTop <= windowCenter && elementBottom >= windowCenter);
+            return (elementTop <= windowCenter + 100 && elementBottom >= windowCenter - 100);
         }
         $(window).scroll(function() {
-            $('section').each(function() {
+            $('section').each(function(index) {
                 if (isElementInView(this)) {
                     var targetId = $(this).attr('id');
                     $('.navbar-nav a').removeClass('active');
                     $('.navbar-nav a[href="#' + targetId + '"]').addClass('active');
+
+                    // Ajout des classes d'animation alternées
+                    var bigRow = $(this).find('.bigRow');
+                    if (!bigRow.hasClass('slide-in-left') && !bigRow.hasClass('slide-in-right')) {
+                        if (index % 2 === 0) {
+                            bigRow.addClass('slide-in-left');
+                        } else {
+                            bigRow.addClass('slide-in-right');
+                        }
+                    }
                 }
             });
         }).scroll();

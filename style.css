@@ -27,8 +27,16 @@ body {
     z-index: 1;
 }
 
+.drive-link {
+    color: white;
+}
+
+.drive-link:hover {
+    color: grey;
+}
+
 nav > .container {
-    background-color: #780478;
+    background: linear-gradient(to right, #540054, #bf4193);
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
@@ -93,6 +101,46 @@ img.profil {
     transition: all 0.3s ease;
 }
 
+.bigRow:nth-of-type(odd) {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.bigRow:nth-of-type(even) {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-in-left {
+    animation: slideInFromLeft 0.5s ease-out forwards;
+}
+
+.slide-in-right {
+    animation: slideInFromRight 0.5s ease-out forwards;
+}
+
 .smallRow {
     margin-bottom: 10px;
     justify-content: space-around;
@@ -103,8 +151,17 @@ img.profil {
 
 .card {
     margin:4px;
+    transition: all 0.3s ease;
     width: 32.2% !important;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-header {
+    background-color: white !important;
 }
 
 .smallCard {
@@ -119,6 +176,10 @@ section:nth-child(odd) {
 
 section:nth-child(even) {
     background: linear-gradient(to top, rgb(151, 151, 151), rgb(213, 213, 213));
+}
+
+section:last-of-type {
+    margin-bottom: 5%;
 }
 
 .link {
