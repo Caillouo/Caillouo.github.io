@@ -111,6 +111,9 @@
     document.addEventListener('keydown', (event) => {
         const keyName = event.key;
         if (keyName === 'ArrowUp' || keyName === 'ArrowDown' || keyName === 'ArrowLeft' || keyName === 'ArrowRight') {
+            if (lastArrow === 'ArrowUp' && keyName === 'ArrowDown' || lastArrow === 'ArrowDown' && keyName === 'ArrowUp' || lastArrow === 'ArrowLeft' && keyName === 'ArrowRight' || lastArrow === 'ArrowRight' && keyName === 'ArrowLeft') {
+                return;
+            }
             lastArrow = keyName;
         } else {
             switch (keyName) {
@@ -125,6 +128,9 @@
                     break;
                 case 'd':
                     camera.position.x += 1;
+                    break;
+                case 'Escape':
+                    lastArrow = '';
                     break;
                 default:
                     break;
