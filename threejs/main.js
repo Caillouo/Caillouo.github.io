@@ -10,7 +10,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 500);
 camera.position.set(0, 0, 55);
 camera.lookAt(0, 0, 0);
-let tps = false;
+let tps = document.getElementById('toggleTps').checked;
 
 // Ajouter une lumière directionnelle
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -28,11 +28,11 @@ document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 if (tps) {
     controls.enablePan = false;
-    controls.enableZoom = false;
-    controls.maxPolarAngle = Math.PI / 2;
-    controls.minPolarAngle = Math.PI / 2;
-    controls.maxAzimuthAngle = Math.PI / 2;
-    controls.minAzimuthAngle = -Math.PI / 2;
+    // controls.enableZoom = false;
+    // controls.maxPolarAngle = Math.PI / 2;
+    // controls.minPolarAngle = Math.PI / 2;
+    // controls.maxAzimuthAngle = Math.PI / 2;
+    // controls.minAzimuthAngle = -Math.PI / 2;
 }
 // Création de la zone de jeu de snake
 const trait = new THREE.LineBasicMaterial({ color: 0x93C47D });
@@ -205,7 +205,7 @@ function changeRotation(object, keyName) {
             object.rotation.y = Math.PI / 2;
             if (tps) {
                 camera.position.set(snakeHead.position.x, snakeHead.position.y - offset, 10);
-                camera.lookAt(snakeHead.position.x, snakeHead.position.y + offset, 0);
+                // camera.lookAt(snakeHead.position.x, snakeHead.position.y + offset, 0);
             }
             break;
         case 'ArrowDown':
@@ -213,7 +213,7 @@ function changeRotation(object, keyName) {
             object.rotation.y = -Math.PI / 2;
             if (tps) {
                 camera.position.set(snakeHead.position.x, snakeHead.position.y + offset, snakeHead.position.z + offset);
-                camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
+                // camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
             }
             break;
         case 'ArrowLeft':
@@ -221,7 +221,7 @@ function changeRotation(object, keyName) {
             object.rotation.y = Math.PI;
             if (tps) {
                 camera.position.set(snakeHead.position.x + offset, snakeHead.position.y, snakeHead.position.z + offset);
-                camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
+                // camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
             }
             break;
         case 'ArrowRight':
@@ -229,7 +229,7 @@ function changeRotation(object, keyName) {
             object.rotation.y = 0;
             if (tps) {
                 camera.position.set(snakeHead.position.x - offset, snakeHead.position.y, snakeHead.position.z + offset);
-                camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
+                // camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
             }
             break;
         default:
