@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let lastArrow = '';
 const loader = new OBJLoader();
@@ -24,7 +25,15 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 // renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
-
+const controls = new OrbitControls(camera, renderer.domElement);
+if (tps) {
+    controls.enablePan = false;
+    controls.enableZoom = false;
+    controls.maxPolarAngle = Math.PI / 2;
+    controls.minPolarAngle = Math.PI / 2;
+    controls.maxAzimuthAngle = Math.PI / 2;
+    controls.minAzimuthAngle = -Math.PI / 2;
+}
 // Création de la zone de jeu de snake
 const trait = new THREE.LineBasicMaterial({ color: 0x93C47D });
 const points = [];
@@ -63,7 +72,7 @@ mtlLoader.load(
         loader.load(
             'objs/catHead/catHead.obj',
             function (object) {
-                object.position.set(0, 0, 0);
+                object.position.set(0, 0, 0.5);
                 object.rotation.x = Math.PI / 2;
                 object.rotation.y = Math.PI / 2;
                 scene.add(object);
@@ -99,7 +108,7 @@ const snakeTailMaterial = new THREE.MeshBasicMaterial({ color: 0x944a00 });
 
 const snakeTailMesh = new THREE.Mesh(snakeTail, snakeTailMaterial);
 
-snakeTailMesh.position.set(0, -1, 0);
+snakeTailMesh.position.set(0, -1, 0.5);
 tails.push(snakeTailMesh);
 scene.add(snakeTailMesh);
 
@@ -113,7 +122,7 @@ mtlLoader.load(
         loader.load(
             'objs/fish/fish.obj',
             function (object) {
-                object.position.set(10, 10, 0);
+                object.position.set(10, 10, 0.5);
                 object.rotation.x = Math.PI / 2;
                 object.rotation.y = Math.PI / 2;
                 food = object;
@@ -195,8 +204,8 @@ function changeRotation(object, keyName) {
             object.rotation.x = Math.PI / 2;
             object.rotation.y = Math.PI / 2;
             if (tps) {
-                camera.position.set(snakeHead.position.x, snakeHead.position.y - offset, snakeHead.position.z + offset);
-                camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
+                camera.position.set(snakeHead.position.x, snakeHead.position.y - offset, 10);
+                camera.lookAt(snakeHead.position.x, snakeHead.position.y + offset, 0);
             }
             break;
         case 'ArrowDown':
@@ -294,4 +303,12 @@ function autoAvancer() {
     renderer.render(scene, camera);
 }
 
+function animate() {
+    if (tps) {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+}
+animate();
 setInterval(autoAvancer, 100);
