@@ -10,6 +10,7 @@ const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerH
 camera.position.set(0, 0, 55);
 camera.lookAt(0, 0, 0);
 let tps = false;
+
 // Ajouter une lumière directionnelle
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(1, 1, 1);
@@ -33,6 +34,20 @@ points.push(new THREE.Vector3(30, -30, 0));
 points.push(new THREE.Vector3(-30, -30, 0));
 points.push(new THREE.Vector3(-30, 30, 0));
 const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+// Ajout de murs hauts à la zone de jeu
+// const mur = new THREE.PlaneGeometry(60, 1);
+// const murMesh = new THREE.Mesh(mur, trait);
+// murMesh.position.set(0, 30, 0);
+
+// scene.add(murMesh);
+
+// Ajout d'une texture à la zone de jeu
+const texture = new THREE.TextureLoader().load('textures/parquet.jpg');
+const material = new THREE.MeshBasicMaterial({ map: texture });
+const plane = new THREE.PlaneGeometry(60, 60);
+const mesh = new THREE.Mesh(plane, material);
+scene.add(mesh);
 
 const line = new THREE.Line(geometry, trait);
 
@@ -173,43 +188,46 @@ function avancerTail(oldx, oldy) {
 
 function changeRotation(object, keyName) {
     let offset = 10; // Définir un décalage pour la position de la caméra
+    let lookAtOffset = 10; // Définir un décalage pour la direction de la caméra
+
     switch (keyName) {
         case 'ArrowUp':
             object.rotation.x = Math.PI / 2;
             object.rotation.y = Math.PI / 2;
             if (tps) {
-                camera.position.set(snakeHead.position.x, snakeHead.position.y - offset, camera.position.z);
-                camera.lookAt(snakeHead.position.x, snakeHead.position.y + 10, snakeHead.position.z);
+                camera.position.set(snakeHead.position.x, snakeHead.position.y - offset, snakeHead.position.z + offset);
+                camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
             }
             break;
         case 'ArrowDown':
             object.rotation.x = Math.PI / 2;
             object.rotation.y = -Math.PI / 2;
             if (tps) {
-                camera.position.set(snakeHead.position.x, snakeHead.position.y + offset, camera.position.z);
-                camera.lookAt(snakeHead.position.x, snakeHead.position.y - 10, snakeHead.position.z);
+                camera.position.set(snakeHead.position.x, snakeHead.position.y + offset, snakeHead.position.z + offset);
+                camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
             }
             break;
         case 'ArrowLeft':
             object.rotation.x = Math.PI / 2;
             object.rotation.y = Math.PI;
             if (tps) {
-                camera.position.set(snakeHead.position.x + offset, snakeHead.position.y, camera.position.z);
-                camera.lookAt(snakeHead.position.x - 10, snakeHead.position.y, snakeHead.position.z);
+                camera.position.set(snakeHead.position.x + offset, snakeHead.position.y, snakeHead.position.z + offset);
+                camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
             }
             break;
         case 'ArrowRight':
             object.rotation.x = Math.PI / 2;
             object.rotation.y = 0;
             if (tps) {
-                camera.position.set(snakeHead.position.x - offset, snakeHead.position.y, camera.position.z);
-                camera.lookAt(snakeHead.position.x + 10, snakeHead.position.y, snakeHead.position.z);
+                camera.position.set(snakeHead.position.x - offset, snakeHead.position.y, snakeHead.position.z + offset);
+                camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
             }
             break;
         default:
             break;
     }
 }
+
 
 function autoAvancer() {
     if (!snakeHead) {
