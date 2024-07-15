@@ -9,7 +9,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 500);
 camera.position.set(0, 0, 55);
 camera.lookAt(0, 0, 0);
-let tps = true;
+let tps = false;
 // Ajouter une lumière directionnelle
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(1, 1, 1);
