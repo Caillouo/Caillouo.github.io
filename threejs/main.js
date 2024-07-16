@@ -28,7 +28,7 @@ document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 if (tps) {
     controls.enablePan = false;
-    // controls.enableZoom = false;
+    controls.enableZoom = false;
     // controls.maxPolarAngle = Math.PI / 2;
     // controls.minPolarAngle = Math.PI / 2;
     // controls.maxAzimuthAngle = Math.PI / 2;
@@ -93,14 +93,6 @@ mtlLoader.load(
     }
 );
 
-
-
-// snakeHead = new THREE.BoxGeometry(1, 1, 1);
-// const snakeHeadMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-
-// const snakeHeadMesh = new THREE.Mesh(snakeHead, snakeHeadMaterial);
-// scene.add(snakeHeadMesh);
-
 // Création de la queue du serpent
 const snakeTail = new THREE.BoxGeometry(1, 1, 1);
 const tails = [];
@@ -136,12 +128,6 @@ mtlLoader.load(
         )
     }
 )
-// const food = new THREE.BoxGeometry(1, 1, 1);
-// const foodMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-// const foodMesh = new THREE.Mesh(food, foodMaterial);
-// foodMesh.position.set(10, 10, 0);
-// scene.add(foodMesh);
 
 renderer.render(scene, camera);
 

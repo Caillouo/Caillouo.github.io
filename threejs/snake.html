@@ -40,10 +40,20 @@
     <form id="form">
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="toggleTps">
-            <label class="form-check-label" for="toggleTps">Default switch checkbox input</label>
+            <label class="form-check-label" for="toggleTps">Vue TPS (En cours de développement)</label>
         </div>
     </form>
 </body>
+<script>
+    const toggleTps = document.getElementById('toggleTps');
+    // On récupère la valeur du switch dans le local storage
+    toggleTps.checked = localStorage.getItem('tps') === 'true';
+    // On stocke la valeur du switch dans le local storage puis on refresh
+    toggleTps.addEventListener('change', (event) => {
+        localStorage.setItem('tps', event.target.checked);
+        location.reload();
+    });
+</script>
 
 </html>
 
