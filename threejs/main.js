@@ -4,94 +4,12 @@ import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let lastArrow = '';
-const loader = new OBJLoader();
-const mtlLoader = new MTLLoader();
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 500);
-camera.position.set(0, 0, 55);
-camera.lookAt(0, 0, 0);
-let tps = document.getElementById('toggleTps').checked;
-
-// Ajouter une lumière directionnelle
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(1, 1, 1);
-scene.add(directionalLight);
-
-// Ajouter une lumière ambiante
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-scene.background = new THREE.Color(0xabcdef);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-// renderer.setAnimationLoop(animate);
-document.body.appendChild(renderer.domElement);
-const controls = new OrbitControls(camera, renderer.domElement);
-if (tps) {
-    controls.enablePan = false;
-    controls.enableZoom = false;
-    // controls.maxPolarAngle = Math.PI / 2;
-    // controls.minPolarAngle = Math.PI / 2;
-    // controls.maxAzimuthAngle = Math.PI / 2;
-    // controls.minAzimuthAngle = -Math.PI / 2;
-}
-// Création de la zone de jeu de snake
-const trait = new THREE.LineBasicMaterial({ color: 0x93C47D });
-const points = [];
-points.push(new THREE.Vector3(-30, 30, 0));
-points.push(new THREE.Vector3(30, 30, 0));
-points.push(new THREE.Vector3(30, -30, 0));
-points.push(new THREE.Vector3(-30, -30, 0));
-points.push(new THREE.Vector3(-30, 30, 0));
-const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-// Ajout de murs hauts à la zone de jeu
-// const mur = new THREE.PlaneGeometry(60, 1);
-// const murMesh = new THREE.Mesh(mur, trait);
-// murMesh.position.set(0, 30, 0);
-
-// scene.add(murMesh);
-
-// Ajout d'une texture à la zone de jeu
-const texture = new THREE.TextureLoader().load('textures/parquet.jpg');
-const material = new THREE.MeshBasicMaterial({ map: texture });
-const plane = new THREE.PlaneGeometry(60, 60);
-const mesh = new THREE.Mesh(plane, material);
-scene.add(mesh);
-
-const line = new THREE.Line(geometry, trait);
-
-scene.add(line);
-
-let snakeHead;
-// Création de la tête du serpent
-mtlLoader.load(
-    'objs/catHead/catHead.mtl',
-    function (materials) {
-        materials.preload();
-        loader.setMaterials(materials);
-        loader.load(
-            'objs/catHead/catHead.obj',
-            function (object) {
-                object.position.set(0, 0, 0.5);
-                object.rotation.x = Math.PI / 2;
-                object.rotation.y = Math.PI / 2;
-                scene.add(object);
-                snakeHead = object;
-                // Placement de la caméra au dessus de la tête du serpent
-                if (tps) {
-                    camera.position.set(snakeHead.position.x, snakeHead.position.y - 10, 10);
-                    // Tourne la caméra vers devant la tête du serpent
-                    camera.lookAt(snakeHead.position.x, snakeHead.position.y + 10, 0);
-                }
-            },
-            function (xhr) {
-            },
-            function (error) {
-                console.log('Erreur de tête');
-            }
-        )
-    }
-);
+var camera, scene, renderer, mesh, loader, mtlLoader, tps, follow, goal, clock, snakeHead;
+var temp = new THREE.Vector3;
+var dir = new THREE.Vector3;
+var a = new THREE.Vector3;
+var b = new THREE.Vector3;
+init();
 
 // Création de la queue du serpent
 const snakeTail = new THREE.BoxGeometry(1, 1, 1);
@@ -174,49 +92,35 @@ document.addEventListener('wheel', (event) => {
 
 function avancerTail(oldx, oldy) {
     for (let i = tails.length - 1; i > 0; i--) {
-        tails[i].position.x = tails[i - 1].position.x;
-        tails[i].position.y = tails[i - 1].position.y;
+        if (!tps) {
+            tails[i].position.x = tails[i - 1].position.x;
+            tails[i].position.y = tails[i - 1].position.y;
+        } else {
+            tails[i].position.x = tails[i - 1].position.x - 1;
+            tails[i].position.y = tails[i - 1].position.y - 1;
+        }
     }
     tails[0].position.x = oldx;
     tails[0].position.y = oldy;
 }
 
 function changeRotation(object, keyName) {
-    let offset = 10; // Définir un décalage pour la position de la caméra
-    let lookAtOffset = 10; // Définir un décalage pour la direction de la caméra
-
     switch (keyName) {
         case 'ArrowUp':
             object.rotation.x = Math.PI / 2;
             object.rotation.y = Math.PI / 2;
-            if (tps) {
-                camera.position.set(snakeHead.position.x, snakeHead.position.y - offset, 10);
-                // camera.lookAt(snakeHead.position.x, snakeHead.position.y + offset, 0);
-            }
             break;
         case 'ArrowDown':
             object.rotation.x = Math.PI / 2;
             object.rotation.y = -Math.PI / 2;
-            if (tps) {
-                camera.position.set(snakeHead.position.x, snakeHead.position.y + offset, snakeHead.position.z + offset);
-                // camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
-            }
             break;
         case 'ArrowLeft':
             object.rotation.x = Math.PI / 2;
             object.rotation.y = Math.PI;
-            if (tps) {
-                camera.position.set(snakeHead.position.x + offset, snakeHead.position.y, snakeHead.position.z + offset);
-                // camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
-            }
             break;
         case 'ArrowRight':
             object.rotation.x = Math.PI / 2;
             object.rotation.y = 0;
-            if (tps) {
-                camera.position.set(snakeHead.position.x - offset, snakeHead.position.y, snakeHead.position.z + offset);
-                // camera.lookAt(snakeHead.position.x, snakeHead.position.y, snakeHead.position.z);
-            }
             break;
         default:
             break;
@@ -230,42 +134,31 @@ function autoAvancer() {
     }
     let oldx = snakeHead.position.x;
     let oldy = snakeHead.position.y;
+    let distance = tps ? 0.1 : 1;
     switch (lastArrow) {
         case 'ArrowUp':
-            if (snakeHead.position.y === 50) {
-                snakeHead.position.y = -50;
+            if (snakeHead.position.y >= 30) {
+                snakeHead.position.y = -30;
             }
-            snakeHead.position.y += 1;
-            if (tps) {
-                camera.position.y += 1;
-            }
+            snakeHead.position.y += distance;
             break;
         case 'ArrowDown':
-            if (snakeHead.position.y === -50) {
-                snakeHead.position.y = 50;
+            if (snakeHead.position.y <= -30) {
+                snakeHead.position.y = 30;
             }
-            snakeHead.position.y -= 1;
-            if (tps) {
-                camera.position.y -= 1;
-            }
+            snakeHead.position.y -= distance;
             break;
         case 'ArrowLeft':
-            if (snakeHead.position.x === -50) {
-                snakeHead.position.x = 50;
+            if (snakeHead.position.x <= -30) {
+                snakeHead.position.x = 30;
             }
-            snakeHead.position.x -= 1;
-            if (tps) {
-                camera.position.x -= 1;
-            }
+            snakeHead.position.x -= distance;
             break;
         case 'ArrowRight':
-            if (snakeHead.position.x === 50) {
-                snakeHead.position.x = -50;
+            if (snakeHead.position.x >= 30) {
+                snakeHead.position.x = -30;
             }
-            snakeHead.position.x += 1;
-            if (tps) {
-                camera.position.x += 1;
-            }
+            snakeHead.position.x += distance;
             break;
         default:
             break;
@@ -274,7 +167,7 @@ function autoAvancer() {
         avancerTail(oldx, oldy);
     }
 
-    if (food && (snakeHead.position.x === food.position.x && snakeHead.position.y === food.position.y)) {
+    if (food && (Math.abs(snakeHead.position.x - food.position.x) < 1 && Math.abs(snakeHead.position.y - food.position.y) < 1)) {
         const newTail = new THREE.BoxGeometry(1, 1, 1);
         const newTailMaterial = new THREE.MeshBasicMaterial({ color: 0x944a00 });
 
@@ -291,10 +184,97 @@ function autoAvancer() {
 
 function animate() {
     if (tps) {
+        const delta = clock.getDelta();
         requestAnimationFrame(animate);
-        controls.update();
+        autoAvancer();
+        if (snakeHead) {
+            a.lerp(snakeHead.position, 0.4);
+            b.copy(goal.position);
+
+            dir.copy(a).sub(b).normalize();
+            const dis = a.distanceTo(b) - 3;
+            goal.position.addScaledVector(dir, dis);
+            goal.position.lerp(temp, 0.02);
+            temp.setFromMatrixPosition(follow.matrixWorld);
+            camera.lookAt(snakeHead.position);
+        }
         renderer.render(scene, camera);
     }
 }
+
+function init() {
+    clock = new THREE.Clock();
+    loader = new OBJLoader();
+    mtlLoader = new MTLLoader();
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 500);
+    camera.position.set(0, -3, 20);
+    camera.lookAt(0, 0, 0);
+    tps = document.getElementById('toggleTps').checked;
+    scene.background = new THREE.Color(0xabcdef);
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    // renderer.setAnimationLoop(animate);
+    document.body.appendChild(renderer.domElement);
+
+    // Création de la zone de jeu de snake
+    const trait = new THREE.LineBasicMaterial({ color: 0x93C47D });
+    const points = [];
+    points.push(new THREE.Vector3(-30, 30, 0));
+    points.push(new THREE.Vector3(30, 30, 0));
+    points.push(new THREE.Vector3(30, -30, 0));
+    points.push(new THREE.Vector3(-30, -30, 0));
+    points.push(new THREE.Vector3(-30, 30, 0));
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+    const texture = new THREE.TextureLoader().load('textures/parquet.jpg');
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const plane = new THREE.PlaneGeometry(60, 60);
+    mesh = new THREE.Mesh(plane, material);
+
+    const line = new THREE.Line(geometry, trait);
+    scene.add(line);
+
+    goal = new THREE.Object3D;
+    follow = new THREE.Object3D;
+    follow.position.z = -3;
+
+    // Création de la tête du serpent
+    mtlLoader.load(
+        'objs/catHead/catHead.mtl',
+        function (materials) {
+            materials.preload();
+            loader.setMaterials(materials);
+            loader.load(
+                'objs/catHead/catHead.obj',
+                function (object) {
+                    object.position.set(0, 0, 0.5);
+                    object.rotation.x = Math.PI / 2;
+                    object.rotation.y = Math.PI / 2;
+                    scene.add(object);
+                    snakeHead = object;
+                    snakeHead.add(follow);
+
+                    goal.add(camera);
+                    scene.add(mesh);
+
+                    // Placement de la caméra au dessus de la tête du serpent
+                    if (tps) {
+                        camera.position.set(snakeHead.position.x, snakeHead.position.y - 10, 10);
+                        // Tourne la caméra vers devant la tête du serpent
+                        camera.lookAt(snakeHead.position.x, snakeHead.position.y + 10, 0);
+                    }
+                },
+                function (xhr) {
+                },
+                function (error) {
+                    console.log('Erreur de tête');
+                }
+            )
+        }
+    );
+}
 animate();
-setInterval(autoAvancer, 100);
+
+if (!tps)
+    setInterval(autoAvancer, 100);
