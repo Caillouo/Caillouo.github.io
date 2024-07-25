@@ -91,18 +91,41 @@ document.addEventListener('wheel', (event) => {
 });
 
 function avancerTail(oldx, oldy) {
-    for (let i = tails.length - 1; i > 0; i--) {
-        if (!tps) {
+    const distance = 1;
+
+    if (!tps) {
+        // Mode normal (pas TPS)
+        for (let i = tails.length - 1; i > 0; i--) {
             tails[i].position.x = tails[i - 1].position.x;
             tails[i].position.y = tails[i - 1].position.y;
-        } else {
-            tails[i].position.x = tails[i - 1].position.x - 1;
-            tails[i].position.y = tails[i - 1].position.y - 1;
+        }
+        tails[0].position.x = oldx;
+        tails[0].position.y = oldy;
+    } else {
+        // Mode TPS
+        for (let i = 0; i < tails.length; i++) {
+            const segment = tails[i];
+            let targetPosition;
+
+            if (i === 0) {
+                // Premier segment suit la tête
+                targetPosition = new THREE.Vector3(oldx, oldy, snakeHead.position.z);
+            } else {
+                // Autres segments suivent le segment précédent
+                targetPosition = tails[i - 1].position.clone();
+            }
+
+            // Calcul de la distance actuelle
+            const segmentDistance = segment.position.distanceTo(targetPosition);
+
+            // Ajustement de la position pour garder la distance constante
+            if (segmentDistance > distance) {
+                segment.position.lerp(targetPosition, (segmentDistance - distance) / segmentDistance);
+            }
         }
     }
-    tails[0].position.x = oldx;
-    tails[0].position.y = oldy;
 }
+
 
 function changeRotation(object, keyName) {
     switch (keyName) {
@@ -172,7 +195,7 @@ function autoAvancer() {
         const newTailMaterial = new THREE.MeshBasicMaterial({ color: 0x944a00 });
 
         const newTailMesh = new THREE.Mesh(newTail, newTailMaterial);
-        newTailMesh.position.set(tails[tails.length - 1].position.x, tails[tails.length - 1].position.y, 0);
+        newTailMesh.position.set(tails[tails.length - 1].position.x, tails[tails.length - 1].position.y, 0.5);
         tails.push(newTailMesh);
         scene.add(newTailMesh);
 
@@ -184,7 +207,6 @@ function autoAvancer() {
 
 function animate() {
     if (tps) {
-        const delta = clock.getDelta();
         requestAnimationFrame(animate);
         autoAvancer();
         if (snakeHead) {
@@ -197,13 +219,44 @@ function animate() {
             goal.position.lerp(temp, 0.02);
             temp.setFromMatrixPosition(follow.matrixWorld);
             camera.lookAt(snakeHead.position);
+
+            // const cameraOffset = new THREE.Vector3();
+            // const cameraDistance = 10; // Distance de la caméra derrière le serpent
+            // const cameraHeight = 10;
+            // switch (lastArrow) {
+            //     case 'ArrowUp':
+            //         cameraOffset.set(0, -cameraDistance, cameraHeight);
+            //         break;
+            //     case 'ArrowDown':
+            //         cameraOffset.set(0, cameraDistance, cameraHeight);
+            //         camera.rotation.z = Math.PI;
+            //         break;
+            //     case 'ArrowLeft':
+            //         cameraOffset.set(cameraDistance, 0, cameraHeight);
+            //         break;
+            //     case 'ArrowRight':
+            //         cameraOffset.set(-cameraDistance, 0, cameraHeight);
+            //         camera.rotation.z = -Math.PI;
+            //         break;
+            //     default:
+            //         cameraOffset.set(0, -cameraDistance, cameraHeight); // Par défaut, derrière la tête
+            //         break;
+            // }
+
+            // // Calcul de la position cible de la caméra
+            // const targetCameraPosition = snakeHead.position.clone().add(cameraOffset);
+
+            // // Interpolation vers la position cible de la caméra
+            // camera.position.lerp(targetCameraPosition, 0.1);
+
+            // // La caméra regarde toujours la tête du serpent
+            // camera.lookAt(snakeHead.position);
         }
         renderer.render(scene, camera);
     }
 }
 
 function init() {
-    clock = new THREE.Clock();
     loader = new OBJLoader();
     mtlLoader = new MTLLoader();
     scene = new THREE.Scene();
@@ -237,7 +290,6 @@ function init() {
 
     goal = new THREE.Object3D;
     follow = new THREE.Object3D;
-    follow.position.z = -3;
 
     // Création de la tête du serpent
     mtlLoader.load(
