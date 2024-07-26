@@ -261,7 +261,7 @@ function init() {
     mtlLoader = new MTLLoader();
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 500);
-    camera.position.set(0, -3, 20);
+    camera.position.set(0, -3, 50);
     camera.lookAt(0, 0, 0);
     tps = document.getElementById('toggleTps').checked;
     scene.background = new THREE.Color(0xabcdef);
@@ -325,6 +325,23 @@ function init() {
             )
         }
     );
+
+    // Création de lumières pour éclairer la scène
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(0, 0, 10);
+    scene.add(light);
+    const light2 = new THREE.DirectionalLight(0xffffff, 1);
+    light2.position.set(0, -30, 10);
+    scene.add(light2);
+    const light3 = new THREE.DirectionalLight(0xffffff, 1);
+    light3.position.set(30, 0, 10);
+    scene.add(light3);
+    const light4 = new THREE.DirectionalLight(0xffffff, 1);
+    light4.position.set(-30, 0, 10);
+    scene.add(light4);
+    const light5 = new THREE.DirectionalLight(0xffffff, 1);
+    light5.position.set(0, 30, 10);
+    scene.add(light5);
 }
 animate();
 
