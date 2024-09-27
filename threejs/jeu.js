@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { loggedUser, updateScore, getHighScores } from './database.js';
 
 let lastArrow = '';
 var camera, scene, renderer, mesh, loader, mtlLoader, tps, follow, goal, clock, snakeHead;
@@ -232,24 +233,21 @@ function loose() {
     document.getElementById('displayLoose').style.display = 'flex';
     document.getElementById('scoreLoose').innerText = score;
 
-    let classement = [];
-    for (let username in highScores) {
-        classement.push({ username, score: highScores[username] });
-    }
-    classement.sort((a, b) => b.score - a.score);
-    let classementTable = '';
+    let classement = getHighScores().then((classement) => {
+        let classementTable = '';
 
-    for (let i = 0; i < classement.length; i++) {
-        classementTable += `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${classement[i].username}</td>
-                <td>${classement[i].score}</td>
-            </tr>
-        `;
-    }
+        for (let i = 0; i < classement.length; i++) {
+            classementTable += `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${classement[i].username}</td>
+                    <td>${classement[i].highScore}</td>
+                </tr>
+            `;
+        }
 
-    document.getElementById('classement').innerHTML = classementTable;
+        document.getElementById('classement').innerHTML = classementTable;
+    });
 }
 
 function manger() {
@@ -405,15 +403,9 @@ export function getHighScoreFor(username) {
 }
 
 function setHighScore() {
-    let username = localStorage.getItem('username');
-    if (!username) {
-        return;
-    }
-
-    let userHighScore = highScores[username] || 0;
+    let userHighScore = loggedUser.highScore;
     if (score >= userHighScore) {
-        highScores[username] = score;
-        localStorage.setItem('highscores', JSON.stringify(highScores));
+        updateScore(loggedUser.username, score);
         document.getElementById('highscore').innerText = score;
     }
 }

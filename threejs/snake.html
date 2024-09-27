@@ -91,7 +91,6 @@
 </script>
 
 <body>
-    <script type="module" src="jeu.js"></script>
     <form id="form">
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="toggleTps">
@@ -171,7 +170,9 @@
     </div>
 </body>
 <script type="module">
+    import { getUser, addUser, loggedUser, logUser } from './database.js';
     import { pauseGame, getHighScoreFor } from './jeu.js';
+
     const toggleTps = document.getElementById('toggleTps');
     // On récupère la valeur du switch dans le local storage
     toggleTps.checked = localStorage.getItem('tps') === 'true';
@@ -205,23 +206,24 @@
     if (localStorage.getItem('username') === null) {
         userLoginModal.show();
     } else {
-        let username = localStorage.getItem('username');
-        document.getElementById('loggedUsername').innerText = username;
+        await logUser(localStorage.getItem('username'));
+        document.getElementById('loggedUsername').innerText = loggedUser.username;
         document.getElementById('username').setAttribute('readonly', true);
-        document.getElementById('highscore').innerText = getHighScoreFor(username) || 0;
+        document.getElementById('highscore').innerText = loggedUser.highScore || 0;
     }
 
-    document.getElementById('login').addEventListener('click', (event) => {
+    document.getElementById('login').addEventListener('click', async (event) => {
         event.preventDefault();
         let username = document.getElementById('username').value;
         if (username != '') {
-            localStorage.setItem('username', username);
-            document.getElementById('loggedUsername').innerText = localStorage.getItem('username');
-            document.getElementById('highscore').innerText = getHighScoreFor(username) || 0;
+            await logUser(username);
+            document.getElementById('loggedUsername').innerText = loggedUser.username;
+            document.getElementById('highscore').innerText = loggedUser.highScore || 0;
         }
         userLoginModal.hide();
     });
 </script>
+<script type="module" src="jeu.js"></script>
 
 </html>
 
