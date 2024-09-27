@@ -375,7 +375,6 @@ function init() {
 animate();
 
 export function pauseGame() {
-    console.log("test");
     paused = !paused;
     if (paused) {
         document.getElementById('displayPause').style.display = 'flex';
