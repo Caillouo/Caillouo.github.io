@@ -58,6 +58,7 @@ export async function logUser(username) {
         loggedUser = user;
     }
 
+    localStorage.setItem("username", username);
     return loggedUser;
 }
 
