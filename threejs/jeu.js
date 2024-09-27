@@ -9,6 +9,12 @@ var temp = new THREE.Vector3;
 var dir = new THREE.Vector3;
 var a = new THREE.Vector3;
 var b = new THREE.Vector3;
+var score = 0;
+var speed = document.getElementById('speed').value;
+document.getElementById('speed').addEventListener('input', (event) => {
+    speed = event.target.value;
+});
+var paused = document.getElementById('displayPause').style.display === 'flex';
 init();
 
 // Création de la queue du serpent
@@ -53,6 +59,9 @@ renderer.render(scene, camera);
 document.addEventListener('keydown', (event) => {
     const keyName = event.key;
     if (keyName === 'ArrowUp' || keyName === 'ArrowDown' || keyName === 'ArrowLeft' || keyName === 'ArrowRight') {
+        if (paused) {
+            return;
+        }
         if (lastArrow === 'ArrowUp' && keyName === 'ArrowDown' || lastArrow === 'ArrowDown' && keyName === 'ArrowUp' || lastArrow === 'ArrowLeft' && keyName === 'ArrowRight' || lastArrow === 'ArrowRight' && keyName === 'ArrowLeft') {
             return;
         }
@@ -73,7 +82,7 @@ document.addEventListener('keydown', (event) => {
                 camera.position.x += 1;
                 break;
             case 'Escape':
-                lastArrow = '';
+                pauseGame();
                 break;
             default:
                 break;
@@ -152,12 +161,13 @@ function changeRotation(object, keyName) {
 
 
 function autoAvancer() {
-    if (!snakeHead) {
+    if (!snakeHead || paused) {
         return;
     }
     let oldx = snakeHead.position.x;
     let oldy = snakeHead.position.y;
     let distance = tps ? 0.1 : 1;
+    distance *= speed / 50;
     switch (lastArrow) {
         case 'ArrowUp':
             if (snakeHead.position.y >= 30) {
@@ -191,18 +201,24 @@ function autoAvancer() {
     }
 
     if (food && (Math.abs(snakeHead.position.x - food.position.x) < 1 && Math.abs(snakeHead.position.y - food.position.y) < 1)) {
-        const newTail = new THREE.BoxGeometry(1, 1, 1);
-        const newTailMaterial = new THREE.MeshBasicMaterial({ color: 0x944a00 });
-
-        const newTailMesh = new THREE.Mesh(newTail, newTailMaterial);
-        newTailMesh.position.set(tails[tails.length - 1].position.x, tails[tails.length - 1].position.y, 0.5);
-        tails.push(newTailMesh);
-        scene.add(newTailMesh);
-
-        food.position.set(Math.floor(Math.random() * 20) - 10, Math.floor(Math.random() * 20) - 10, 0);
+        manger();
     }
 
     renderer.render(scene, camera);
+}
+
+function manger() {
+    const newTail = new THREE.BoxGeometry(1, 1, 1);
+    const newTailMaterial = new THREE.MeshBasicMaterial({ color: 0x944a00 });
+
+    const newTailMesh = new THREE.Mesh(newTail, newTailMaterial);
+    newTailMesh.position.set(tails[tails.length - 1].position.x, tails[tails.length - 1].position.y, 0.5);
+    tails.push(newTailMesh);
+    scene.add(newTailMesh);
+
+    food.position.set(Math.floor(Math.random() * 20) - 10, Math.floor(Math.random() * 20) - 10, 0);
+    score++;
+    document.getElementById('scoreValue').innerText = score;
 }
 
 function animate() {
@@ -219,38 +235,6 @@ function animate() {
             goal.position.lerp(temp, 0.02);
             temp.setFromMatrixPosition(follow.matrixWorld);
             camera.lookAt(snakeHead.position);
-
-            // const cameraOffset = new THREE.Vector3();
-            // const cameraDistance = 10; // Distance de la caméra derrière le serpent
-            // const cameraHeight = 10;
-            // switch (lastArrow) {
-            //     case 'ArrowUp':
-            //         cameraOffset.set(0, -cameraDistance, cameraHeight);
-            //         break;
-            //     case 'ArrowDown':
-            //         cameraOffset.set(0, cameraDistance, cameraHeight);
-            //         camera.rotation.z = Math.PI;
-            //         break;
-            //     case 'ArrowLeft':
-            //         cameraOffset.set(cameraDistance, 0, cameraHeight);
-            //         break;
-            //     case 'ArrowRight':
-            //         cameraOffset.set(-cameraDistance, 0, cameraHeight);
-            //         camera.rotation.z = -Math.PI;
-            //         break;
-            //     default:
-            //         cameraOffset.set(0, -cameraDistance, cameraHeight); // Par défaut, derrière la tête
-            //         break;
-            // }
-
-            // // Calcul de la position cible de la caméra
-            // const targetCameraPosition = snakeHead.position.clone().add(cameraOffset);
-
-            // // Interpolation vers la position cible de la caméra
-            // camera.position.lerp(targetCameraPosition, 0.1);
-
-            // // La caméra regarde toujours la tête du serpent
-            // camera.lookAt(snakeHead.position);
         }
         renderer.render(scene, camera);
     }
@@ -345,5 +329,14 @@ function init() {
 }
 animate();
 
+export function pauseGame() {
+    console.log("test");
+    paused = !paused;
+    if (paused) {
+        document.getElementById('displayPause').style.display = 'flex';
+    } else {
+        document.getElementById('displayPause').style.display = 'none';
+    }
+}
 if (!tps)
     setInterval(autoAvancer, 100);

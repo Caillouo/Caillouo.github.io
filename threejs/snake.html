@@ -21,7 +21,33 @@
             left: 0;
             z-index: 100;
             background-color: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            width: 20%;
+        }
+
+        #right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.5);
             padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #displayPause {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 100;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.5);
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            display: none;
         }
     </style>
 </head>
@@ -36,15 +62,32 @@
 </script>
 
 <body>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="jeu.js"></script>
     <form id="form">
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="toggleTps">
             <label class="form-check-label" for="toggleTps">Vue TPS (En cours de développement)</label>
         </div>
+        <div class="speedSelector">
+            <label for="speed">Vitesse de déplacement : <span id="speedValue">50</span></label>
+            <span class="sliderContainer">
+                <input type="range" min="1" max="100" value="50" class="form-range" id="speed">
+            </span>
+        </div>
     </form>
+    <div id="right">
+        <h3>Score : <span id="scoreValue">0</span></h3>
+        <div id="pause">
+            <button id="pauseButton" class="btn btn-primary">Pause</button>
+        </div>
+    </div>
+    <div id="displayPause">
+        <h1>Jeu en pause</h1>
+        <button id="resumeButton" class="btn btn-primary">Reprendre</button>
+    </div>
 </body>
-<script>
+<script type="module">
+    import { pauseGame } from './jeu.js';
     const toggleTps = document.getElementById('toggleTps');
     // On récupère la valeur du switch dans le local storage
     toggleTps.checked = localStorage.getItem('tps') === 'true';
@@ -53,6 +96,16 @@
         localStorage.setItem('tps', event.target.checked);
         location.reload();
     });
+
+    const speed = document.getElementById('speed');
+    speed.addEventListener('input', (event) => {
+        document.getElementById('speedValue').innerText = event.target.value;
+    });
+
+    const resumeButton = document.getElementById('resumeButton');
+    resumeButton.addEventListener('click', pauseGame);
+    const pauseButton = document.getElementById('pauseButton');
+    pauseButton.addEventListener('click', pauseGame);
 </script>
 
 </html>
