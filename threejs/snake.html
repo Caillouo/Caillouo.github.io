@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/3.3.1/sha.js"></script>
     <meta charset="utf-8">
     <title>Snake de William NOEL</title>
     <style>
@@ -155,11 +156,18 @@
                 </div>
                 <div class="modal-body">
                     <form>
+                        <div id="errorLogin" class="alert alert-danger" role="alert" style="display: none;">
+                            Nom d'utilisateur ou mot de passe incorrect
+                        </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">Nom d'utilisateur</label>
                             <input type="text" class="form-control" id="username" aria-describedby="usernameHelp">
                             <div id="usernameHelp" class="form-text">Votre nom d'utilisateur sera affiché dans le
                                 classement</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="password">
                         </div>
                         <button id="login" type="submit" class="btn btn-primary">Connexion</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Plus tard</button>
@@ -206,17 +214,31 @@
     if (localStorage.getItem('username') === null) {
         userLoginModal.show();
     } else {
-        await logUser(localStorage.getItem('username'));
-        document.getElementById('loggedUsername').innerText = loggedUser.username;
-        document.getElementById('username').setAttribute('readonly', true);
-        document.getElementById('highscore').innerText = loggedUser.highScore || 0;
+        await logUser(localStorage.getItem('username'), localStorage.getItem('password'));
+        if (loggedUser == null) {
+            userLoginModal.show();
+        } else {
+            document.getElementById('loggedUsername').innerText = loggedUser.username;
+            document.getElementById('username').setAttribute('readonly', true);
+            document.getElementById('highscore').innerText = loggedUser.highScore || 0;
+        }
     }
 
     document.getElementById('login').addEventListener('click', async (event) => {
         event.preventDefault();
         let username = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+        var hashObj = new jsSHA("SHA-512", "TEXT", { numRounds: 1 });
+        hashObj.update(password);
+        let hashedPassword = hashObj.getHash("HEX");
         if (username != '') {
-            await logUser(username);
+            await logUser(username, hashedPassword);
+            if (loggedUser == null) {
+                document.getElementById('errorLogin').style.display = 'block';
+                return;
+            }
+            localStorage.setItem('password', hashedPassword);
+            document.getElementById('errorLogin').style.display = 'none';
             document.getElementById('loggedUsername').innerText = loggedUser.username;
             document.getElementById('highscore').innerText = loggedUser.highScore || 0;
         }

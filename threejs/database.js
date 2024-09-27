@@ -37,24 +37,28 @@ export async function getUser(username) {
     }
 }
 
-export function addUser(username) {
+export function addUser(username, password) {
     const newUserRef = ref(db, `users/${username}`);
     set(newUserRef, {
         username: username,
         highScore: 0,
+        password: password,
     })
         .catch((error) => {
             console.error("Error adding user: ", error);
         });
 }
 
-export async function logUser(username) {
+export async function logUser(username, password = localStorage.getItem("password")) {
     const userRef = ref(db, `users/${username}`);
     const user = await getUser(username);
     if (user === null) {
-        addUser(username);
+        addUser(username, password);
         loggedUser = await getUser(username);
     } else {
+        if (user.password !== password) {
+            return null;
+        }
         loggedUser = user;
     }
 
