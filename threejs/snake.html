@@ -37,7 +37,26 @@
             align-items: center;
         }
 
-        #displayPause {
+        #list {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #user {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #score {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .displayCenter {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -48,6 +67,16 @@
             align-items: center;
             padding: 20px;
             display: none;
+        }
+
+        #displayStart {
+            display: flex;
+        }
+
+        #buttonList {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
         }
     </style>
 </head>
@@ -76,18 +105,73 @@
         </div>
     </form>
     <div id="right">
-        <h3>Score : <span id="scoreValue">0</span></h3>
-        <div id="pause">
-            <button id="pauseButton" class="btn btn-primary">Pause</button>
+        <div id="list">
+            <div id="user">
+                <h6>Utilisateur : <span id="loggedUsername">Non connecté</span></h6>
+                <h6>Votre meilleur score : <span id="highscore">0</span></h6>
+            </div>
+            <div id="score">
+                <h6>Score : <span id="scoreValue">0</span></h6>
+                <div id="pause">
+                    <button id="pauseButton" class="btn btn-primary">Pause</button>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="displayPause">
+    <div id="displayStart" class="displayCenter">
+        <h1>Appuyez sur une flèche pour commencer</h1>
+    </div>
+    <div id="displayPause" class="displayCenter">
         <h1>Jeu en pause</h1>
-        <button id="resumeButton" class="btn btn-primary">Reprendre</button>
+        <div id="buttonList">
+            <button id="resumeButton" class="btn btn-primary">Reprendre</button>
+            <button id="logoutButton" class="btn btn-danger">Se déconnecter</button>
+        </div>
+    </div>
+    <div id="displayLoose" class="displayCenter">
+        <h1>Vous avez perdu</h1>
+        <h6>Votre score est de <span id="scoreLoose">0</span></h6>
+        <button id="restartButton" class="btn btn-primary">Recommencer</button>
+
+        <h4>Classement</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Position</th>
+                    <th scope="col">Nom d'utilisateur</th>
+                    <th scope="col">Score</th>
+                </tr>
+            </thead>
+            <tbody id="classement">
+            </tbody>
+        </table>
+    </div>
+    <div id="userLoginModal" class="modal fade" tabindex="-1" aria-labelledby="userLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userLoginModalLabel">Connexion pour sauvegarder votre score (localement)
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" id="username" aria-describedby="usernameHelp">
+                            <div id="usernameHelp" class="form-text">Votre nom d'utilisateur sera affiché dans le
+                                classement</div>
+                        </div>
+                        <button id="login" type="submit" class="btn btn-primary">Connexion</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Plus tard</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 <script type="module">
-    import { pauseGame } from './jeu.js';
+    import { pauseGame, getHighScoreFor } from './jeu.js';
     const toggleTps = document.getElementById('toggleTps');
     // On récupère la valeur du switch dans le local storage
     toggleTps.checked = localStorage.getItem('tps') === 'true';
@@ -97,6 +181,7 @@
         location.reload();
     });
 
+    document.getElementById('speedValue').innerText = document.getElementById('speed').value;
     const speed = document.getElementById('speed');
     speed.addEventListener('input', (event) => {
         document.getElementById('speedValue').innerText = event.target.value;
@@ -106,6 +191,36 @@
     resumeButton.addEventListener('click', pauseGame);
     const pauseButton = document.getElementById('pauseButton');
     pauseButton.addEventListener('click', pauseGame);
+
+    document.getElementById('restartButton').addEventListener('click', () => {
+        location.reload();
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', () => {
+        localStorage.removeItem('username');
+        location.reload();
+    });
+
+    const userLoginModal = new bootstrap.Modal(document.getElementById('userLoginModal'));
+    if (localStorage.getItem('username') === null) {
+        userLoginModal.show();
+    } else {
+        let username = localStorage.getItem('username');
+        document.getElementById('loggedUsername').innerText = username;
+        document.getElementById('username').setAttribute('readonly', true);
+        document.getElementById('highscore').innerText = getHighScoreFor(username) || 0;
+    }
+
+    document.getElementById('login').addEventListener('click', (event) => {
+        event.preventDefault();
+        let username = document.getElementById('username').value;
+        if (username != '') {
+            localStorage.setItem('username', username);
+            document.getElementById('loggedUsername').innerText = localStorage.getItem('username');
+            document.getElementById('highscore').innerText = getHighScoreFor(username) || 0;
+        }
+        userLoginModal.hide();
+    });
 </script>
 
 </html>

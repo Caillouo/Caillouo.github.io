@@ -9,11 +9,13 @@ var temp = new THREE.Vector3;
 var dir = new THREE.Vector3;
 var a = new THREE.Vector3;
 var b = new THREE.Vector3;
+var highScores = {};
 var score = 0;
 var speed = document.getElementById('speed').value;
 document.getElementById('speed').addEventListener('input', (event) => {
     speed = event.target.value;
 });
+var ended = false;
 var paused = document.getElementById('displayPause').style.display === 'flex';
 init();
 
@@ -57,6 +59,9 @@ renderer.render(scene, camera);
 
 // ecoute des fleches du clavier
 document.addEventListener('keydown', (event) => {
+    if (ended) {
+        return;
+    }
     const keyName = event.key;
     if (keyName === 'ArrowUp' || keyName === 'ArrowDown' || keyName === 'ArrowLeft' || keyName === 'ArrowRight') {
         if (paused) {
@@ -64,6 +69,9 @@ document.addEventListener('keydown', (event) => {
         }
         if (lastArrow === 'ArrowUp' && keyName === 'ArrowDown' || lastArrow === 'ArrowDown' && keyName === 'ArrowUp' || lastArrow === 'ArrowLeft' && keyName === 'ArrowRight' || lastArrow === 'ArrowRight' && keyName === 'ArrowLeft') {
             return;
+        }
+        if (lastArrow === '') {
+            document.getElementById('displayStart').style.display = 'none';
         }
         changeRotation(snakeHead, keyName);
         lastArrow = keyName;
@@ -204,7 +212,44 @@ function autoAvancer() {
         manger();
     }
 
+    checkCollision();
+
     renderer.render(scene, camera);
+}
+
+function checkCollision() {
+    for (let i = 0; i < tails.length; i++) {
+        let seuil = 0.5;
+        if (Math.abs(snakeHead.position.x - tails[i].position.x) < seuil && Math.abs(snakeHead.position.y - tails[i].position.y) < seuil) {
+            loose();
+        }
+    }
+}
+
+function loose() {
+    ended = true;
+    paused = true;
+    document.getElementById('displayLoose').style.display = 'flex';
+    document.getElementById('scoreLoose').innerText = score;
+
+    let classement = [];
+    for (let username in highScores) {
+        classement.push({ username, score: highScores[username] });
+    }
+    classement.sort((a, b) => b.score - a.score);
+    let classementTable = '';
+
+    for (let i = 0; i < classement.length; i++) {
+        classementTable += `
+            <tr>
+                <td>${i + 1}</td>
+                <td>${classement[i].username}</td>
+                <td>${classement[i].score}</td>
+            </tr>
+        `;
+    }
+
+    document.getElementById('classement').innerHTML = classementTable;
 }
 
 function manger() {
@@ -219,6 +264,8 @@ function manger() {
     food.position.set(Math.floor(Math.random() * 20) - 10, Math.floor(Math.random() * 20) - 10, 0);
     score++;
     document.getElementById('scoreValue').innerText = score;
+
+    setHighScore();
 }
 
 function animate() {
@@ -340,3 +387,33 @@ export function pauseGame() {
 }
 if (!tps)
     setInterval(autoAvancer, 100);
+
+function loadHighScores() {
+    if (localStorage.getItem('highscores') && Object.keys(localStorage.getItem('highscores')).length > 0) {
+        highScores = JSON.parse(localStorage.getItem('highscores'));
+    }
+    highScores[username.value] = 0;
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+}
+
+export function getHighScoreFor(username) {
+    if (Object.keys(highScores).length === 0) {
+        loadHighScores();
+    }
+
+    return highScores[username] || 0;
+}
+
+function setHighScore() {
+    let username = localStorage.getItem('username');
+    if (!username) {
+        return;
+    }
+
+    let userHighScore = highScores[username] || 0;
+    if (score >= userHighScore) {
+        highScores[username] = score;
+        localStorage.setItem('highscores', JSON.stringify(highScores));
+        document.getElementById('highscore').innerText = score;
+    }
+}
