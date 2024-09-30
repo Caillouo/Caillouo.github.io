@@ -93,10 +93,10 @@
 
 <body>
     <form id="form">
-        <div class="form-check form-switch">
+        <!-- <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="toggleTps" value="true">
             <label class="form-check-label" for="toggleTps">Vue TPS (En cours de développement)</label>
-        </div>
+        </div> -->
         <div class="speedSelector">
             <label for="speed">Vitesse de déplacement : <span id="speedValue">50</span></label>
             <span class="sliderContainer">
@@ -182,13 +182,15 @@
     import { pauseGame, getHighScoreFor } from './jeu.js';
 
     const toggleTps = document.getElementById('toggleTps');
-    // On récupère la valeur du switch dans le local storage
-    toggleTps.checked = localStorage.getItem('tps') === 'true';
-    // On stocke la valeur du switch dans le local storage puis on refresh
-    toggleTps.addEventListener('change', (event) => {
-        localStorage.setItem('tps', event.target.checked);
-        location.reload();
-    });
+    if (toggleTps) {
+        // On récupère la valeur du switch dans le local storage
+        toggleTps.checked = localStorage.getItem('tps') === 'true';
+        // On stocke la valeur du switch dans le local storage puis on refresh
+        toggleTps.addEventListener('change', (event) => {
+            localStorage.setItem('tps', event.target.checked);
+            location.reload();
+        });
+    }
 
     document.getElementById('speedValue').innerText = document.getElementById('speed').value;
     const speed = document.getElementById('speed');

@@ -5,7 +5,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { loggedUser, updateScore, getHighScores } from './database.js';
 
 let lastArrow = '';
-var camera, scene, renderer, mesh, loader, mtlLoader, tps, follow, goal, clock, snakeHead;
+var camera, scene, renderer, mesh, loader, mtlLoader, tps, follow, goal, clock, snakeHead, arrowHelper;
 var temp = new THREE.Vector3;
 var dir = new THREE.Vector3;
 var a = new THREE.Vector3;
@@ -41,7 +41,7 @@ mtlLoader.load(
         loader.load(
             'objs/fish/fish.obj',
             function (object) {
-                object.position.set(10, 10, 0.5);
+                object.position.set(Math.floor(Math.random() * 20) - 10, Math.floor(Math.random() * 20) - 10, 0);
                 object.rotation.x = Math.PI / 2;
                 object.rotation.y = Math.PI / 2;
                 food = object;
@@ -73,6 +73,9 @@ document.addEventListener('keydown', (event) => {
         }
         if (lastArrow === '') {
             document.getElementById('displayStart').style.display = 'none';
+            if (keyName === 'ArrowDown') {
+                return;
+            }
         }
         changeRotation(snakeHead, keyName);
         lastArrow = keyName;
@@ -180,25 +183,29 @@ function autoAvancer() {
     switch (lastArrow) {
         case 'ArrowUp':
             if (snakeHead.position.y >= 30) {
-                snakeHead.position.y = -30;
+                loose();
+                // snakeHead.position.y = -30;
             }
             snakeHead.position.y += distance;
             break;
         case 'ArrowDown':
             if (snakeHead.position.y <= -30) {
-                snakeHead.position.y = 30;
+                loose();
+                // snakeHead.position.y = 30;
             }
             snakeHead.position.y -= distance;
             break;
         case 'ArrowLeft':
             if (snakeHead.position.x <= -30) {
-                snakeHead.position.x = 30;
+                loose();
+                // snakeHead.position.x = 30;
             }
             snakeHead.position.x -= distance;
             break;
         case 'ArrowRight':
             if (snakeHead.position.x >= 30) {
-                snakeHead.position.x = -30;
+                loose();
+                // snakeHead.position.x = -30;
             }
             snakeHead.position.x += distance;
             break;
@@ -273,6 +280,20 @@ function animate() {
         requestAnimationFrame(animate);
         autoAvancer();
         if (snakeHead) {
+            if (food) {
+                // Calculer la direction de la nourriture par rapport à la tête
+                const foodDirection = new THREE.Vector3();
+                foodDirection.subVectors(food.position, snakeHead.position).normalize();
+
+                // Mettre à jour la position de la flèche au-dessus de la tête du serpent
+                const arrowPosition = snakeHead.position.clone();
+                arrowPosition.z += 2;  // Place la flèche au-dessus de la tête
+                arrowHelper.position.copy(arrowPosition);
+
+                // Mettre à jour la direction de la flèche pour qu'elle pointe vers la nourriture
+                arrowHelper.setDirection(foodDirection);
+            }
+
             a.lerp(snakeHead.position, 0.4);
             b.copy(goal.position);
 
@@ -294,7 +315,7 @@ function init() {
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 500);
     camera.position.set(0, -3, 50);
     camera.lookAt(0, 0, 0);
-    tps = document.getElementById('toggleTps').checked;
+    tps = true;
     scene.background = new THREE.Color(0xabcdef);
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -319,6 +340,35 @@ function init() {
     const line = new THREE.Line(geometry, trait);
     scene.add(line);
 
+    // Création des murs autour de la zone de jeu
+    const wallMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    const wallThickness = 1;
+    const wallHeight = 1;
+
+    // Mur Nord
+    const northWall = new THREE.BoxGeometry(60, wallThickness, wallHeight);
+    const northWallMesh = new THREE.Mesh(northWall, wallMaterial);
+    northWallMesh.position.set(0, 30 + wallThickness / 2, wallHeight / 2);
+    scene.add(northWallMesh);
+
+    // Mur Sud
+    const southWall = new THREE.BoxGeometry(60, wallThickness, wallHeight);
+    const southWallMesh = new THREE.Mesh(southWall, wallMaterial);
+    southWallMesh.position.set(0, -30 - wallThickness / 2, wallHeight / 2);
+    scene.add(southWallMesh);
+
+    // Mur Est
+    const eastWall = new THREE.BoxGeometry(wallThickness, 60, wallHeight);
+    const eastWallMesh = new THREE.Mesh(eastWall, wallMaterial);
+    eastWallMesh.position.set(30 + wallThickness / 2, 0, wallHeight / 2);
+    scene.add(eastWallMesh);
+
+    // Mur Ouest
+    const westWall = new THREE.BoxGeometry(wallThickness, 60, wallHeight);
+    const westWallMesh = new THREE.Mesh(westWall, wallMaterial);
+    westWallMesh.position.set(-30 - wallThickness / 2, 0, wallHeight / 2);
+    scene.add(westWallMesh);
+
     goal = new THREE.Object3D;
     follow = new THREE.Object3D;
 
@@ -340,6 +390,20 @@ function init() {
 
                     goal.add(camera);
                     scene.add(mesh);
+
+                    const arrowDir = new THREE.Vector3(0, 1, 0);
+                    const arrowLength = 1;
+                    const arrowColor = 0xff4141;
+                    const arrowHeadWidth = 0.3; // Largeur de la tête de la flèche
+                    const arrowHeadLength = 0.5; // Longueur de la tête de la flèche
+
+                    // Création de la flèche
+                    arrowHelper = new THREE.ArrowHelper(arrowDir, snakeHead.position, arrowLength, arrowColor, arrowHeadLength, arrowHeadWidth);
+
+                    // Changer l'épaisseur du trait de la flèche
+                    arrowHelper.line.material.linewidth = 5; // Par exemple, 5 pour une épaisseur plus grande
+
+                    scene.add(arrowHelper);
 
                     // Placement de la caméra au dessus de la tête du serpent
                     if (tps) {
