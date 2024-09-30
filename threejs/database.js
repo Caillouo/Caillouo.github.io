@@ -37,32 +37,45 @@ export async function getUser(username) {
     }
 }
 
-export function addUser(username, password) {
+export function addUser(username, password, salt) {
     const newUserRef = ref(db, `users/${username}`);
     set(newUserRef, {
         username: username,
         highScore: 0,
         password: password,
+        salt: salt
     })
         .catch((error) => {
             console.error("Error adding user: ", error);
         });
 }
 
-export async function logUser(username, password = localStorage.getItem("password")) {
+export async function logUser(username, password = null) {
+    var hashObj = new jsSHA("SHA-512", "TEXT", { numRounds: 1 });
     const userRef = ref(db, `users/${username}`);
     const user = await getUser(username);
+    let hashedPassword, salt = null;
     if (user === null) {
-        addUser(username, password);
+        salt = generateSalt();
+        hashObj.update(password + salt);
+        hashedPassword = hashObj.getHash("HEX");
+        addUser(username, hashedPassword, salt);
         loggedUser = await getUser(username);
     } else {
-        if (user.password !== password) {
+        salt = user.salt;
+        hashObj.update(password + salt);
+        hashedPassword = hashObj.getHash("HEX");
+        if (localStorage.getItem("hashedPassword") !== null) {
+            hashedPassword = localStorage.getItem("hashedPassword");
+        }
+        if (user.password !== hashedPassword) {
             return null;
         }
         loggedUser = user;
     }
 
     localStorage.setItem("username", username);
+    localStorage.setItem('hashedPassword', hashedPassword);
     return loggedUser;
 }
 
@@ -93,4 +106,13 @@ export async function getHighScores() {
         console.error("Error getting high scores: ", error);
         return null; // Renvoie null en cas d'erreur
     }
+}
+
+function generateSalt() {
+    var salt = "";
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 16; i++) {
+        salt += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return salt;
 }

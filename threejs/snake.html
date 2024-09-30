@@ -214,7 +214,7 @@
     if (localStorage.getItem('username') === null) {
         userLoginModal.show();
     } else {
-        await logUser(localStorage.getItem('username'), localStorage.getItem('password'));
+        await logUser(localStorage.getItem('username'));
         if (loggedUser == null) {
             userLoginModal.show();
         } else {
@@ -228,16 +228,12 @@
         event.preventDefault();
         let username = document.getElementById('username').value;
         let password = document.getElementById('password').value;
-        var hashObj = new jsSHA("SHA-512", "TEXT", { numRounds: 1 });
-        hashObj.update(password);
-        let hashedPassword = hashObj.getHash("HEX");
         if (username != '') {
-            await logUser(username, hashedPassword);
+            await logUser(username, password);
             if (loggedUser == null) {
                 document.getElementById('errorLogin').style.display = 'block';
                 return;
             }
-            localStorage.setItem('password', hashedPassword);
             document.getElementById('errorLogin').style.display = 'none';
             document.getElementById('loggedUsername').innerText = loggedUser.username;
             document.getElementById('highscore').innerText = loggedUser.highScore || 0;

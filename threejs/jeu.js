@@ -263,7 +263,9 @@ function manger() {
     score++;
     document.getElementById('scoreValue').innerText = score;
 
-    setHighScore();
+    if (loggedUser) {
+        setHighScore();
+    }
 }
 
 function animate() {
