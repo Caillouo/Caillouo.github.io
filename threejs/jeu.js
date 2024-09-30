@@ -169,6 +169,8 @@ function changeRotation(object, keyName) {
         default:
             break;
     }
+
+    // updateCameraPosition(object);
 }
 
 
@@ -294,6 +296,8 @@ function animate() {
                 arrowHelper.setDirection(foodDirection);
             }
 
+            // updateCameraPosition();
+
             a.lerp(snakeHead.position, 0.4);
             b.copy(goal.position);
 
@@ -306,6 +310,33 @@ function animate() {
         }
         renderer.render(scene, camera);
     }
+}
+
+function updateCameraPosition(object) {
+    const offset = 5;  // Distance behind the snake
+    const height = 2;  // Height of the camera relative to the snake
+
+    // Create a vector to get the direction of the snake's head
+    const direction = new THREE.Vector3();
+    object.getWorldDirection(direction);  // Get the direction the snake's head is facing
+
+    // Create a vector for the camera's position
+    const cameraPosition = new THREE.Vector3();
+
+    // Place the camera behind the snake
+    cameraPosition.copy(object.position);  // Copy the position of the snake's head
+    // Scale the direction vector and subtract it from the camera position
+    direction.multiplyScalar(offset); // Scale the direction by offset
+    cameraPosition.sub(direction); // Now subtract it
+
+    // Add height to the camera
+    cameraPosition.y += height;  // Adjust height
+
+    // Update the camera's position
+    camera.position.copy(cameraPosition);
+
+    // Orient the camera to look at the snake's head
+    camera.lookAt(object.position);  // Look at the snake's head
 }
 
 function init() {
