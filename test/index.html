@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/lewis.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="montserrat-webfont/webfonts/Montserrat.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'montserrat', sans-serif;
+        }
+
+        #reseaux * {
+            font-family: 'FontAwesome';
+        }
+
+        .contact-btn {
+            border-radius: 50px;
+            border-width: 2px;
+        }
+
+        .read-btn {
+            border-radius: 50px;
+            border-width: 1px;
+            padding: 5% 30%
+        }
+
+        .send-btn {
+            border-radius: 50px;
+            border-width: 1px;
+            width: fit-content;
+            padding: 2% 10%
+        }
+
+        .opacity-30 {
+            opacity: 0.30 !important;
+        }
+
+        .banner-separator {
+            margin-left: 0;
+            margin-right: 0;
+            position: relative;
+            margin-bottom: 15rem !important;
+            background-color: #332f30;
+        }
+
+        .banner-separator::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 100vw;
+            height: 100%;
+            background-image: url("images/section-back.svg");
+            background-color: #332f30;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+
+        .image-row {
+            top: 65%;
+            left: 35%;
+            z-index: 1;
+        }
+
+        .picture {
+            max-width: 150px;
+            z-index: 10;
+            margin: auto;
+        }
+
+        .profil {
+            width: 20%;
+            height: 100%;
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: black;
+            text-align: center;
+        }
+
+        .image-row .star {
+            max-width: 1rem;
+            z-index: 10;
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+        .image-row .row {
+            z-index: 10;
+        }
+
+        .hover-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hover-card:hover {
+            transform: scale(1.05);
+        }
+
+        .hover-card img {
+            object-fit: cover;
+        }
+
+        .project-modal {
+            display: none;
+        }
+
+        input,
+        textarea {
+            border-radius: 50px !important;
+        }
+
+        .category-selected {
+            color: black !important;
+            border: solid 1px black;
+        }
+
+        .date-banner {
+            background-color: rgb(41, 40, 40);
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 15px 25px;
+            text-align: center;
+        }
+
+        .active-nav {
+            text-decoration: underline;
+            font-weight: bold;
+            text-underline-offset: 10px;
+            text-decoration-thickness: 3px;
+        }
+
+        .navbar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 100vw;
+            height: 100%;
+            background-color: #f8f9fa;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+
+        #reseaux {
+            display: flex;
+            justify-content: center;
+            width: fit-content;
+        }
+
+        #reseaux .list-group-item {
+            padding: 0;
+            flex: 1;
+            text-align: center;
+            margin: 0.2rem;
+            cursor: pointer;
+        }
+
+        #reseaux i {
+            height: 2rem;
+            width: 2rem;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        footer {
+            position: relative;
+            background-color: #2b2a2c;
+        }
+
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 100vw;
+            height: 100%;
+            background-color: #2b2a2c;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 2rem;
+        }
+
+        #contact-modal .modal-dialog {
+            max-width: 1000px;
+        }
+
+        #contact-modal .close-btn {
+            color: white;
+            position: absolute;
+            right: 1rem;
+            top: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mt-3 sticky-top bg-white py-3 navbar">
+            <div class="col-4 d-flex align-items-center lh-sm">
+                <img class="rounded-circle" src="images/lewis.png">
+                <div class="col ms-2">
+                    <b>Lewis<br> Nathaniel</b>
+                    <p class="text-secondary">UI & UX Designer</p>
+                </div>
+            </div>
+            <nav class="col ms-auto text-end">
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn me-2" href="#projets">
+                            <span>
+                                <b>PROJETS</b>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn me-2" href="#about">
+                            <span>
+                                <b>À PROPOS</b>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn me-2" href="#blog">
+                            <span>
+                                <b>BLOG</b>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-dark contact-btn" data-bs-toggle="modal"
+                            data-bs-target="#contact-modal">
+                            <span>
+                                <b>CONTACT</b>
+                            </span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row mt-5">
+            <div class="col lh-sm">
+                <span class="fs-3 fw-lighter lead">Hello, je suis...</span>
+                <h1 class="display-6 fw-normal"><b>Lewis Nathaniel</b></h1>
+                <b class="lead text-secondary">UI & UX</b>
+                <ul class="list-group list-group-horizontal mt-3" id="reseaux">
+                    <li class="list-group-item">
+                        <i class="fa fa-behance" aria-hidden="true" style="background-color: #1869ff"></i>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa fa-dribbble" aria-hidden="true" style="background-color: #e51a68"></i>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa fa-linkedin" aria-hidden="true" style="background-color: #007bb6;"></i>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa fa-facebook" aria-hidden="true" style="background-color: #3a5898;"></i>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa fa-instagram" aria-hidden="true" style="background-color: #13578a;"></i>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa fa-twitter" aria-hidden="true" style="background-color: #56acef;"></i>
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-outline-dark contact-btn mt-3 px-4 py-2 fw-bold"
+                    data-bs-toggle="modal" data-bs-target="#contact-modal">CONTACT</button>
+            </div>
+            <div class="col ms-auto text-end">
+                <img src="images/undraw_innovative_b409.svg" alt="Illustration" class="img-fluid">
+            </div>
+        </div>
+        <div class="row my-5 section" id="projets">
+            <div class="row">
+                <nav>
+                    <ul class="nav justify-content-center category-filter">
+                        <li class="nav-item">
+                            <button class="btn me-2 text-secondary category-selected" href="#">Tous</a>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn me-2 text-secondary" href="#">Mobile</a>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn me-2 text-secondary" href="#">Web</a>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn me-2 text-secondary" href="#">Interaction</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="row mt-3" id="project-grid">
+                <div class="col-md-4 mb-4">
+                    <div class="card hover-card" data-bs-toggle="modal" data-bs-target="#project-modal"
+                        data-client="Nom de client">
+                        <img src="images/projects/App-Screens-Perspective-MockUp-full.jpg"
+                            class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                            <div class="text-secondary small project-category">Web / Mobile</div>
+                            <div class="card-title d-flex justify-content-between">
+                                <b class="project-title">Site vitrine</b>
+                                <b class="ms-auto project-year">2024</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card hover-card" data-bs-toggle="modal" data-bs-target="#project-modal">
+                        <img src="images/projects/sample_2.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                            <div class="text-secondary small project-category">Interaction</div>
+                            <div class="card-title d-flex justify-content-between">
+                                <b class="project-title">Projet Tatouage</b>
+                                <b class="ms-auto project-year">2023</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card hover-card" data-bs-toggle="modal" data-bs-target="#project-modal">
+                        <img src="images/projects/sample_6.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                            <div class="text-secondary small project-category">Web</div>
+                            <div class="card-title d-flex justify-content-between">
+                                <b class="project-title">GreenWeb</b>
+                                <b class="ms-auto project-year">2022</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card hover-card" data-bs-toggle="modal" data-bs-target="#project-modal">
+                        <img src="images/projects/sample_4.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                            <div class="text-secondary small project-category">Web</div>
+                            <div class="card-title d-flex justify-content-between">
+                                <b class="project-title">EcoSips</b>
+                                <b class="ms-auto project-year">2021</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card hover-card" data-bs-toggle="modal" data-bs-target="#project-modal">
+                        <img src="images/projects/sample_7.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                            <div class="text-secondary small project-category">Mobile / Interaction</div>
+                            <div class="card-title d-flex justify-content-between">
+                                <b class="project-title">Café Scribbles</b>
+                                <b class="ms-auto project-year">2020</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card hover-card" data-bs-toggle="modal" data-bs-target="#project-modal">
+                        <img src="images/projects/sample_1.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                            <div class="text-secondary small project-category">Web / Mobile / Interaction</div>
+                            <div class="card-title d-flex justify-content-between">
+                                <b class="project-title">Amber Vibes</b>
+                                <b class="ms-auto project-year">2019</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card hover-card" data-bs-toggle="modal" data-bs-target="#project-modal">
+                        <img src="images/projects/sample_5.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                            <div class="text-secondary small project-category">Mobile</div>
+                            <div class="card-title d-flex justify-content-between">
+                                <b class="project-title">Café connect</b>
+                                <b class="ms-auto project-year">2018</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card hover-card" data-bs-toggle="modal" data-bs-target="#project-modal">
+                        <img src="images/projects/Rectangle 405.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                            <div class="text-secondary small project-category">Web / Mobile / Interaction</div>
+                            <div class="card-title d-flex justify-content-between">
+                                <b class="project-title">AquaTech</b>
+                                <b class="ms-auto project-year">2017</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card hover-card" data-bs-toggle="modal" data-bs-target="#project-modal">
+                        <img src="images/projects/cover_photo.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                            <div class="text-secondary small project-category">Interaction</div>
+                            <div class="card-title d-flex justify-content-between">
+                                <b class="project-title">WanderLens</b>
+                                <b class="ms-auto project-year">2016</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-6 section" id="about">
+            <div class="col-md-6">
+                <img src="images/undraw_Designer_by46.svg" alt="Illustration" class="img-fluid">
+            </div>
+            <div class="col-md-6 lh-sm">
+                <p class="fw-bold display-4">À PROPOS...</p>
+                <p class="fw-bold text-secondary display-4 opacity-30">QUI SUIS-JE ?</p>
+                <p class="small fw-light lh-lg">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Maecenas pellentesque eu enim eget luctus. Sed augue felis,
+                    facilisis et elementum vitae, aliquam sit amet ante. Sed iaculis
+                    eros sem, elementum consequat est consequat eu. Quisque
+                    aliquet a ipsum nec tincidunt. Nulla vitae rhoncus leo. Praesent
+                    dui sapien, bibendum quis tempus dictum, auctor ac dui.
+                    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+                    posuere cubilia Curae; Donec at mauris porta, ullamcorper sem
+                    quis, lobortis sem. Donec sit amet aliquet dui, at varius est.
+                    Phasellus porttitor finibus neque vel vehicula
+                </p>
+                <button class="btn btn-outline-dark contact-btn" data-bs-toggle="modal"
+                    data-bs-target="#contact-modal">CONTACT</button>
+            </div>
+        </div>
+        <div class="row my-5 banner-separator text-white text-center p-5">
+            <span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque eu enim eget luctus. Sed
+                augue felis,
+                facilisis et elementum vitae, aliquam sit amet ante. Sed iaculis eros sem, elementum consequat est
+                consequat eu. Quisque
+                aliquet a ipsum nec tincidunt. Nulla vitae rhoncus leo. Praesent dui sapien, bibendum quis tempus dictum
+            </span>
+            <div class="row align-items-center justify-content-center mt-4 profil image-row">
+                <div class="row">
+                    <img src="images/lena.jpg" class="rounded-circle img-fluid picture" alt="Lena">
+                </div>
+                <div class="row">
+                    <b>Lena M. Brooks</b>
+                    <p class="small text-secondary">Marketing House</p>
+                </div>
+                <div class="row d-flex justify-content-center align-items-center">
+                    <i class="fa fa-star star me-1" aria-hidden="true"></i>
+                    <i class="fa fa-star star me-1" aria-hidden="true"></i>
+                    <i class="fa fa-star star me-1" aria-hidden="true"></i>
+                    <i class="fa fa-star star me-1" aria-hidden="true"></i>
+                    <i class="fa fa-star-half-o star me-1" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row my-5 section" id="blog">
+            <div class="row text-center mb-5">
+                <span class="fw-bold display-4">MON BLOG</span>
+                <span class="text-secondary fw-light">Mes avis sur les dernières tendances du Web</span>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="image">
+                            <div class="date-banner">
+                                <span>20</span>
+                                <br>
+                                <span>Jan</span>
+                            </div>
+                            <img src="images/blog/airbnb-2384737_1920.jpg" class="card-img-top" alt="...">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <b>TEN THE BEST APP IN 2017</b>
+                            </div>
+                            <div class="text-secondary fw-light">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit. Maecenas pellentesque eu enim
+                                    eget luctus. Sed augue felis, facilisis et
+                                    elementum vitae, aliquam sit amet ante. Sed
+                                    iaculis eros sem, elementum consequat
+                                </p>
+                            </div>
+                            <button class="btn btn-outline-dark read-btn">LIRE</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="image">
+                            <img src="images/blog/office-820390_1920.jpg" class="card-img-top" alt="...">
+                            <div class="date-banner">
+                                <span>15</span>
+                                <br>
+                                <span>Jan</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <b>WEBSITE INSPIRATION</b>
+                            </div>
+                            <div class="text-secondary fw-light">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit. Maecenas pellentesque eu enim
+                                    eget luctus. Sed augue felis, facilisis et
+                                    elementum vitae, aliquam sit amet ante. Sed
+                                    iaculis eros sem, elementum consequat
+                                </p>
+                            </div>
+                            <button class="btn btn-outline-dark read-btn">LIRE</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="image">
+                            <img src="images/blog/technology-3164715_1920.jpg" class="card-img-top" alt="...">
+                            <div class="date-banner">
+                                <span>10</span>
+                                <br>
+                                <span>Jan</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <b>CHANGES IN SOCIAL MEDIA</b>
+                            </div>
+                            <div class="text-secondary fw-light">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit. Maecenas pellentesque eu enim
+                                    eget luctus. Sed augue felis, facilisis et
+                                    elementum vitae, aliquam sit amet ante. Sed
+                                    iaculis eros sem, elementum consequat
+                                </p>
+                            </div>
+                            <button class="btn btn-outline-dark read-btn">LIRE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="text-secondary p-2 d-flex justify-content-between">
+            <span class="mt-2">
+                © 2018 UI43 - Free Templates |
+                <i class="fa fa-behance mx-1" aria-hidden="true"></i>
+                <i class="fa fa-dribbble mx-1" aria-hidden="true"></i>
+                <i class="fa fa-linkedin mx-1" aria-hidden="true"></i>
+                <i class="fa fa-facebook mx-1" aria-hidden="true"></i>
+                <i class="fa fa-instagram mx-1" aria-hidden="true"></i>
+                <i class="fa fa-twitter mx-1" aria-hidden="true"></i>
+            </span>
+            <span>
+                <button class="btn btn-outline-secondary contact-btn" data-bs-toggle="modal"
+                    data-bs-target="#contact-modal">CONTACT</button>
+            </span>
+        </footer>
+    </div>
+    <div id="project-modal" class="project-modal modal fade">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-body row">
+                    <div class="col-md-7 d-flex align-items-center justify-content-center">
+                        <img src="" alt="Image de projet" class="img-fluid w-100 h-100" id="projet-modal-image"
+                            style="object-fit: fill;">
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row justify-content-end">
+                            <i class="fa fa-times-circle text-end me-2 close-btn" data-bs-dismiss="modal"
+                                aria-label="Close"></i>
+                        </div>
+                        <h5 class="row project-modal-title fw-bold display-6">PROJECT TITLE modale</h5>
+                        <div class="row text-secondary small d-inline">
+                            <span class="project-modal-category">CATEGORY</span>
+                            |
+                            <span class="project-modal-date">2018</span>
+                        </div>
+
+                        <div class="row mt-4 mb-2">
+                            <b>Client:</b>
+                            <p class="small project-modal-clientName">CLIENT NAME</p>
+                        </div>
+                        <div class="row">
+                            Lorem ipsum dolor sit amet, consectetur
+                            adipiscing elit. Maecenas pellentesque eu enim
+                            eget luctus. Sed augue felis, facilisis et
+                            elementum vitae, aliquam sit amet ante. Sed
+                            iaculis eros sem, elementum consequat est
+                            consequat eu. Quisque aliquet a ipsum nec
+                            tincidunt. Nulla vitae rhoncus leo. Praesent dui
+                            sapien, bibendum quis tempus dictum, auctor
+                            ac dui. Vestibulum ante ipsum primis in
+                            faucibus orci luctus et ultrices posuere cubilia
+                            Curae; Donec at mauris porta, ullamcorper sem
+                            quis, lobortis sem. Donec sit amet aliquet dui, at
+                            varius est. Phasellus porttitor finibus neque vel
+                            vehicula. Duis in nulla egestas, dignissim elit at,
+                            imperdiet eros. Integer tristique posuere purus.
+                            Suspendisse placerat, quam vitae ullamcorper
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="contact-modal" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 p-4">
+                            <div class="row">
+                                <h5 class="project-modal-title fw-bold display-6">CONTACT</h5>
+                            </div>
+                            <div class="row small">
+                                <span>
+                                    APPELEZ-MOI OU ENVOYEZ-MOI UN MAIL
+                                </span>
+                            </div>
+                            <div class="row mt-4 mb-2">
+                                <span>
+                                    <i class="fa fa-phone-square" aria-hidden="true"></i>
+                                    01 02 03 04 05
+                                </span>
+                                <span>
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    designer@ui43.com
+                                </span>
+                            </div>
+                            <form id="contactForm">
+                                <div class="row mt-4 mb-2">
+                                    <label for="email"><b>Adresse e-mail</b></label>
+                                    <input type="text" class="form-control me-4 mt-2 p-4" placeholder="Adresse e-mail">
+                                </div>
+                                <div class="row mt-4 mb-2">
+                                    <label for="object"><b>Contenu</b></label>
+                                    <textarea class="form-control me-4 mt-2 p-4" placeholder="Contenu"></textarea>
+                                </div>
+                                <div class="row mt-4 mb-2 justify-content-end">
+                                    <button type="submit" class="btn btn-outline-dark send-btn">ENVOYER</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-7">
+                            <i class="fa fa-times-circle text-end me-2 close-btn" data-bs-dismiss="modal"
+                                aria-label="Close"></i>
+                            <img src="images/popup-1.jpg" alt="Image de projet" class="img-fluid w-100 h-100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    // Ajout des événements sur les projets
+    let projets = document.getElementsByClassName('hover-card');
+    for (let projet of projets) {
+        // Chargement des informations du projet dans la modale
+        projet.addEventListener('click', function () {
+            let modal = document.getElementById('project-modal');
+            let image = projet.getElementsByTagName('img')[0].src;
+            let title = projet.getElementsByClassName('project-title')[0].innerText;
+            let category = projet.getElementsByClassName('project-category')[0].innerText;
+            let year = projet.getElementsByClassName('project-year')[0].innerText;
+            let client = projet.getAttribute('data-client') ?? 'Client Name';
+            modal.getElementsByClassName('project-modal-title')[0].innerText = title;
+            modal.getElementsByTagName('img')[0].src = image;
+            modal.getElementsByClassName('project-modal-category')[0].innerText = category;
+            modal.getElementsByClassName('project-modal-date')[0].innerText = year;
+            modal.getElementsByClassName('project-modal-clientName')[0].innerText = client;
+        });
+    }
+
+    // Gestion de la navigation
+    document.addEventListener('scroll', function () {
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-item a');
+
+        let currentSection = '';
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+
+            if (window.scrollY >= sectionTop - sectionHeight / 3) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+
+        // Sous-lignage de la section active
+        navLinks.forEach(link => {
+            link.getElementsByTagName('span')[0].classList.remove('active-nav');
+            if (currentSection && link.getAttribute('href') && link.getAttribute('href').includes(currentSection)) {
+                link.getElementsByTagName('span')[0].classList.add('active-nav');
+            }
+        });
+    });
+
+    // Ajoute un offset au scroll
+    document.querySelectorAll('.nav-item a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+
+            const targetPosition = targetSection.offsetTop - navbarHeight;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+</html>
