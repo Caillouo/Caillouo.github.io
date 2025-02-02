@@ -91,6 +91,20 @@ export async function updateScore(username, newScore) {
     loggedUser = await getUser(username);
 }
 
+export async function updateClickerScore(username, newScore) {
+    const userRef = ref(db, `users/${username}`);
+    if (newScore > loggedUser.clickerScore) {
+        update(userRef, {
+            clickerScore: newScore,
+        })
+            .catch((error) => {
+                console.error("Error updating score: ", error);
+            });
+    }
+
+    loggedUser = await getUser(username);
+}
+
 export async function getHighScores() {
     const usersRef = ref(db, "users");
     try {

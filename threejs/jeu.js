@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { loggedUser, updateScore, getHighScores } from './database.js';
+import { loggedUser, updateScore, getHighScores } from '../database.js';
 
 let lastArrow = '';
 var camera, scene, renderer, mesh, loader, mtlLoader, tps, follow, goal, clock, snakeHead, arrowHelper;
