@@ -84,6 +84,7 @@
         });
         if (localStorage.getItem('username') === null) {
             userLoginModal.show();
+            logoutButton.style.display = 'none';
         } else {
             await logUser(localStorage.getItem('username'));
             if (loggedUser == null) {
