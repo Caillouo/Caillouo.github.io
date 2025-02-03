@@ -37,17 +37,28 @@ export async function getUser(username) {
     }
 }
 
-export function addUser(username, password, salt) {
+export async function addUser(username, password) {
+    let user = await getUser(username);
+    if (user !== null) {
+        return;
+    }
+    let hashedPassword, salt = null;
+    var hashObj = new jsSHA("SHA-512", "TEXT", { numRounds: 1 });
+    salt = generateSalt();
+    hashObj.update(password + salt);
+    hashedPassword = hashObj.getHash("HEX");
     const newUserRef = ref(db, `users/${username}`);
-    set(newUserRef, {
-        username: username,
-        highScore: 0,
-        password: password,
-        salt: salt
-    })
-        .catch((error) => {
-            console.error("Error adding user: ", error);
+    try {
+        await set(newUserRef, {
+            username: username,
+            highScore: 0,
+            password: hashedPassword,
+            salt: salt
         });
+        loggedUser = await getUser(username);
+    } catch (error) {
+        console.error("Error adding user: ", error);
+    }
 }
 
 export async function logUser(username, password = null) {
@@ -56,11 +67,11 @@ export async function logUser(username, password = null) {
     const user = await getUser(username);
     let hashedPassword, salt = null;
     if (user === null) {
-        salt = generateSalt();
-        hashObj.update(password + salt);
-        hashedPassword = hashObj.getHash("HEX");
-        addUser(username, hashedPassword, salt);
-        loggedUser = await getUser(username);
+        // salt = generateSalt();
+        // hashObj.update(password + salt);
+        // hashedPassword = hashObj.getHash("HEX");
+        // addUser(username, hashedPassword, salt);
+        // loggedUser = await getUser(username);
     } else {
         salt = user.salt;
         hashObj.update(password + salt);

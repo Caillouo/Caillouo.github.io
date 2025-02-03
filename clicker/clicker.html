@@ -17,7 +17,7 @@
 
 <body>
     <div class="container">
-        <h1>Clicker Game</h1>
+        <h1>Bee Clicker</h1>
         <h6 class="user">
             <span>
                 Utilisateur :
@@ -28,6 +28,8 @@
         </h6>
         <button id="logoutButton" class="btn btn-danger">Se déconnecter</button>
         <button id="loginButton" class="btn btn-primary">Se connecter</button>
+        <button id="registerButton" class="btn btn-success mt-2" data-bs-toggle="modal"
+            data-bs-target="#userRegisterModal">S'inscrire</button>
         <p>Score : <span id="score">0</span></p>
         <button id="clickButton">
             <img src="img/ruche-dabeilles.png" alt="ruche">
@@ -37,7 +39,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="userLoginModalLabel">Connexion pour sauvegarder votre score (localement)
+                    <h5 class="modal-title" id="userLoginModalLabel">Connexion pour sauvegarder votre score
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -58,66 +60,125 @@
                         </div>
                         <button id="login" type="submit" class="btn btn-primary">Connexion</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Plus tard</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" data-bs-toggle="modal"
+                            data-bs-target="#userRegisterModal">S'inscrire</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <script type="module" src="clicker.js"></script>
-    <script type="module">
-        import { getUser, addUser, loggedUser, logUser } from '../database.js';
-        import { setScore } from './clicker.js';
-        const userLoginModal = new bootstrap.Modal(document.getElementById('userLoginModal'));
-        const loginButton = document.getElementById('loginButton');
-        const logoutButton = document.getElementById('logoutButton');
-        loginButton.addEventListener('click', () => {
-            userLoginModal.show();
-        });
-        logoutButton.addEventListener('click', () => {
-            localStorage.removeItem('username');
-            document.getElementById('loggedUsername').innerText = 'Non connecté';
-            document.getElementById('username').removeAttribute('readonly');
-            document.getElementById('score').innerText = 0;
-            loginButton.style.display = 'block';
-            logoutButton.style.display = 'none';
-            setScore(0);
-        });
-        if (localStorage.getItem('username') === null) {
+    <div id="userRegisterModal" class="modal fade" tabindex="-1" aria-labelledby="userRegisterModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userRegisterModalLabel">Inscription pour sauvegarder votre score</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div id="errorRegister" class="alert alert-danger" role="alert" style="display: none;">
+                            Nom d'utilisateur déjà utilisé
+                        </div>
+                        <div class="mb-3">
+                            <label for="usernameRegister" class="form-label">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" id="usernameRegister"
+                                aria-describedby="usernameRegisterHelp">
+                            <div id="usernameRegisterHelp" class="form-text">Votre nom d'utilisateur sera affiché dans
+                                le classement</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordRegister" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="passwordRegister">
+                        </div>
+                        <button id="register" type="submit" class="btn btn-primary">Inscription</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Plus tard</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type=" module" src="clicker.js">
+                    </script>
+<script type="module">
+    import { getUser, addUser, loggedUser, logUser } from '../database.js';
+    import { setScore } from './clicker.js';
+    const userLoginModal = new bootstrap.Modal(document.getElementById('userLoginModal'));
+    const userRegisterModal = new bootstrap.Modal(document.getElementById('userRegisterModal'));
+    const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const registerButton = document.getElementById('registerButton');
+    loginButton.addEventListener('click', () => {
+        userLoginModal.show();
+    });
+    logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('username');
+        document.getElementById('loggedUsername').innerText = 'Non connecté';
+        document.getElementById('username').removeAttribute('readonly');
+        document.getElementById('score').innerText = 0;
+        loginButton.style.display = 'block';
+        logoutButton.style.display = 'none';
+        setScore(0);
+    });
+    if (localStorage.getItem('username') === null) {
+        userLoginModal.show();
+        logoutButton.style.display = 'none';
+    } else {
+        await logUser(localStorage.getItem('username'));
+        if (loggedUser == null) {
             userLoginModal.show();
             logoutButton.style.display = 'none';
         } else {
-            await logUser(localStorage.getItem('username'));
-            if (loggedUser == null) {
-                userLoginModal.show();
-                logoutButton.style.display = 'none';
-            } else {
-                document.getElementById('loggedUsername').innerText = loggedUser.username;
-                document.getElementById('username').setAttribute('readonly', true);
-                document.getElementById('score').innerText = loggedUser.clickerScore || 0;
-                loginButton.style.display = 'none';
-                setScore(loggedUser.clickerScore || 0);
-            }
+            document.getElementById('loggedUsername').innerText = loggedUser.username;
+            document.getElementById('username').setAttribute('readonly', true);
+            document.getElementById('score').innerText = loggedUser.clickerScore || 0;
+            loginButton.style.display = 'none';
+            registerButton.style.display = 'none';
+            setScore(loggedUser.clickerScore || 0);
         }
-        document.getElementById('login').addEventListener('click', async (event) => {
-            event.preventDefault();
-            let username = document.getElementById('username').value;
-            let password = document.getElementById('password').value;
-            if (username != '') {
-                await logUser(username, password);
-                if (loggedUser == null) {
-                    document.getElementById('errorLogin').style.display = 'block';
-                    return;
-                }
-                document.getElementById('errorLogin').style.display = 'none';
-                document.getElementById('loggedUsername').innerText = loggedUser.username;
-                document.getElementById('score').innerText = loggedUser.clickerScore || 0;
-                loginButton.style.display = 'none';
-                logoutButton.style.display = 'block';
-                setScore(loggedUser.clickerScore || 0);
+    }
+    document.getElementById('login').addEventListener('click', async (event) => {
+        event.preventDefault();
+        let username = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+        if (username != '') {
+            await logUser(username, password);
+            if (loggedUser == null) {
+                document.getElementById('errorLogin').style.display = 'block';
+                return;
             }
-            userLoginModal.hide();
-        });
-    </script>
-</body>
+            document.getElementById('errorLogin').style.display = 'none';
+            document.getElementById('loggedUsername').innerText = loggedUser.username;
+            document.getElementById('score').innerText = loggedUser.clickerScore || 0;
+            loginButton.style.display = 'none';
+            registerButton.style.display = 'none';
+            logoutButton.style.display = 'block';
+            setScore(loggedUser.clickerScore || 0);
+        }
+        userLoginModal.hide();
+    });
+    document.getElementById('register').addEventListener('click', async (event) => {
+        event.preventDefault();
+        let username = document.getElementById('usernameRegister').value;
+        let password = document.getElementById('passwordRegister').value;
+        if (username != '') {
+            await addUser(username, password);
+            if (loggedUser == null) {
+                document.getElementById('errorRegister').style.display = 'block';
+                return;
+            }
+            document.getElementById('errorRegister').style.display = 'none';
+            document.getElementById('loggedUsername').innerText = loggedUser.username;
+            document.getElementById('username').setAttribute('readonly', true);
+            document.getElementById('score').innerText = loggedUser.clickerScore || 0;
+            loginButton.style.display = 'none';
+            registerButton.style.display = 'none';
+            logoutButton.style.display = 'block';
+            setScore(loggedUser.clickerScore || 0);
+        }
+        userRegisterModal.hide();
+    });
+</script>
 
 </html>
