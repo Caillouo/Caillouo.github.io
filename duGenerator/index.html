@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Du Generator</title>
+    <link rel="stylesheet" href="du-generator.css">
+    <link rel="icon" href="../storage/images/profil_picture.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/3.3.1/sha.js"></script>
+</head>
+
+<body>
+    <div class="container my-5">
+        <h1 class="mb-4">Générateur de Document Unique</h1>
+
+        <!-- Formulaire de création -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Créer un document</h5>
+                <form id="duForm">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titre du document</label>
+                        <input type="text" class="form-control" id="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Risques</label>
+                        <div id="risksContainer">
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control risk-input" placeholder="Saisir un risque"
+                                    required>
+                                <button type="button" class="btn btn-danger remove-risk">Supprimer</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" id="addRiskBtn">Ajouter un risque</button>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Liste des documents -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Documents existants</h5>
+                <ul class="list-group" id="documentList">
+                    <!-- Les documents sauvegardés apparaîtront ici -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { saveDb } from './du-database.js';
+
+        const form = document.getElementById('duForm');
+        const list = document.getElementById('documentList');
+
+        function addDocumentToList(doc) {
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.innerHTML = `<strong>${doc.title}</strong><br>${doc.description}<br>Risques: ${doc.risks.join(', ')}`;
+            list.appendChild(li);
+        }
+
+        addRiskBtn.addEventListener('click', () => {
+            const div = document.createElement('div');
+            div.className = 'input-group mb-2';
+            div.innerHTML = `
+                <input type="text" class="form-control risk-input" placeholder="Saisir un risque" required>
+                <button type="button" class="btn btn-danger remove-risk">Supprimer</button>
+            `;
+            risksContainer.appendChild(div);
+        });
+
+        risksContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-risk')) {
+                e.target.parentElement.remove();
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+
+            // Récupérer tous les risques
+            const risks = Array.from(document.querySelectorAll('.risk-input'))
+                .map(input => input.value.trim())
+                .filter(r => r !== '');
+
+            const docData = { title, description, risks, createdAt: new Date().toISOString() };
+            await saveDb(`documents/${title}`, docData);
+            addDocumentToList(docData);
+            form.reset();
+
+            // Supprimer tous les champs risques sauf le premier vide
+            risksContainer.innerHTML = `
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control risk-input" placeholder="Saisir un risque" required>
+                    <button type="button" class="btn btn-danger remove-risk">Supprimer</button>
+                </div>
+            `;
+        });
+        // TODO: charger les documents existants depuis Firebase
+    </script>
+</body>
