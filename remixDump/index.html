@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mes Mashups 🎧</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="title-section">
+                <h1>🎶 Mes Mashups</h1>
+                <p class="subtitle">Écoute ou télécharge mes mix directement ici</p>
+            </div>
+            <div class="btn-list hidden">
+                <button id="addMixBtn" class="btn add-btn">+ Ajouter un remix</button>
+                <button id="logout" class="btn logout-btn">Se d&eacute;connecter</button>
+            </div>
+            <div class="login-section hidden">
+                <input type="email" id="email" placeholder="Email">
+                <input type="password" id="password" placeholder="Mot de passe">
+                <button id="loginBtn" class="btn">Connexion</button>
+            </div>
+            <div class="show-login">
+                <button id="showLogin" class="btn">Se connecter</button>
+            </div>
+        </div>
+    </header>
+
+
+    <main>
+        <section class="mix-container">
+        </section>
+    </main>
+
+    <footer>
+        <p>⚠️ Ce site est non commercial et à but de partage. Tous les droits appartiennent à leurs artistes respectifs.
+        </p>
+    </footer>
+
+
+    <!-- MODAL D’AJOUT DE MIX -->
+    <div id="addMixModal" class="modal">
+        <div class="modal-content">
+            <h2>Ajouter un remix</h2>
+            <label>Titre</label>
+            <input type="text" id="mixTitle" placeholder="Nom du remix">
+
+            <label>Description</label>
+            <textarea id="mixDesc" placeholder="Petite description..."></textarea>
+
+            <label>Lien audio (Dropbox, Drive, etc.)</label>
+            <input type="text" id="mixAudio" placeholder="https://...">
+
+            <label>Image de couverture (optionnelle)</label>
+            <input type="text" id="mixImage" placeholder="https://...">
+
+            <div class="modal-actions">
+                <button id="cancelAdd" class="btn btn-secondary">Annuler</button>
+                <button id="confirmAdd" class="btn">Ajouter</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js" type="module">
+    </script>
+</body>
+
+</html>
