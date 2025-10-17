@@ -79,7 +79,7 @@ export function appendMix(id, title, image, desc, audio) {
     <div class="mix-content"">
       <h2 class="mix-title">${title}</h2>
       <p class="mix-desc">${desc}</p>
-      <audio controls preload="none">
+      <audio controls preload="metadata">
         <source src="${audio}" type="audio/mpeg">
       </audio>
       <a href="${downloadLink}" class="btn" download target="_blank">Télécharger</a>
