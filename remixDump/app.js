@@ -20,7 +20,8 @@ confirmBtn.addEventListener("click", () => {
         return;
     }
 
-    appendMix(title, image, desc, audio);
+    let nextId = getDb('mixs').then(mixs => mixs ? Object.keys(mixs).length + 1 : 1);
+    appendMix(nextId, title, image, desc, audio);
 
     // Fermer et réinitialiser le modal
     modal.classList.remove("active");
@@ -63,6 +64,16 @@ export function appendMix(id, title, image, desc, audio) {
     const newMix = document.createElement("div");
     newMix.classList.add("mix-card");
     newMix.id = `mix-${id}`;
+    let downloadLink = audio;
+    if (audio && audio.includes("dropbox")) {
+        let urls = getDropboxUrls(audio);
+        audio = urls.raw;
+        downloadLink = urls.dl;
+    }
+    if (image && image.includes("dropbox")) {
+        let urls = getDropboxUrls(image);
+        image = urls.raw;
+    }
     newMix.innerHTML = `
     <img src="${image}" alt="Mix cover" class="mix-thumb" />
     <div class="mix-content"">
@@ -71,7 +82,7 @@ export function appendMix(id, title, image, desc, audio) {
       <audio controls preload="none">
         <source src="${audio}" type="audio/mpeg">
       </audio>
-      <a href="${audio}" class="btn" download target="_blank">Télécharger</a>
+      <a href="${downloadLink}" class="btn" download target="_blank">Télécharger</a>
       <button class="btn delete-btn hidden">Supprimer</button>
     </div>
   `;
@@ -89,7 +100,23 @@ export function appendMix(id, title, image, desc, audio) {
 
 export function loadMixes() {
     getDb('mixs').then(mixs => {
+        if (!mixs) {
+            return;
+        }
         mixs.forEach((mix, id) => appendMix(id, mix.title, mix.image, mix.desc, mix.audio));
     });
 }
 
+function getDropboxUrls(dropboxUrl) {
+    // Si contient &dl ou &raw
+    let baseUrl = dropboxUrl;
+    if (dropboxUrl.includes("&dl")) {
+        baseUrl = dropboxUrl.split("&dl")[0];
+    } else if (dropboxUrl.includes("&raw")) {
+        baseUrl = dropboxUrl.split("&raw")[0];
+    }
+    return {
+        raw: baseUrl + "&raw=1",
+        dl: baseUrl + "&dl=1"
+    }
+}

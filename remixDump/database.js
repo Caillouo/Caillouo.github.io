@@ -29,8 +29,7 @@ export async function saveDb(tableName, values) {
         nextId = Object.keys(table).length + 1;
     }
     try {
-        let test = await set(ref(db, `${tableName}/${nextId}`), values);
-        console.log(test);
+        await set(ref(db, `${tableName}/${nextId}`), values);
     } catch (error) {
         console.error("Error adding data: ", [error, ref, values]);
     }
@@ -76,10 +75,8 @@ onAuthStateChanged(auth, (user) => {
     } else {
         btnList.classList.add('hidden');
         showLogin.classList.remove('hidden');
-        console.log(deleteBtns);
         deleteBtns.forEach(btn => {
             btn.classList.add('hidden');
-            console.log(btn);
         });
     }
 });
